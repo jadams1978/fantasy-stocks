@@ -1,6 +1,6 @@
  $.ajax({
     type:"GET",
-    url: "convertcsv.json"
+    url: "../../convertcsv.json"
     ,
     success: function(data) {
       console.log(data);
@@ -9,4 +9,6 @@
     },
     dataType: 'json',
   });
- 
+ $('button').click(function() {
+   console.log('hello');
+ })

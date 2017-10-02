@@ -7,15 +7,21 @@ html
     link(rel='stylesheet', href='/stylesheets/style.css')
     script(src='http://code.jquery.com/jquery.js')
     script(src='http://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js')
-    script(src='/fantasystock.js') 
-    -each script in scripts 
-          script(type='text/javascript', src= script) 
+    script(src='http://localhost:3000/fantasystock.js')  
   body
     if (error && error.length > 0)
       br
       h4.error-msg= error
       br
 
+    a(href='/') | Home
+    a(href='/register') | Join a League
+    a(href='/profile') | Profile
     block content
+
+    
+
+
+    
 
      
