@@ -1,0 +1,25 @@
+extends layout
+
+block content
+  .container
+    if (!user)
+      a(href="/login") Login
+      br
+      a(href="/register") Register
+    if (user)
+      p You are currently logged in as #{user.username}
+      a(href="/logout") Logout
+      if (leagues)
+        each league in leagues
+          li 
+            a(href="/league/"+league._id) #{league.leaguename} 
+
+
+
+      form(role='form', action="/create-league",method="post")
+       .form-group
+          input.form-control(type='text', name="leaguename", placeholder='Create League')
+       button.btn.btn-default(type='submit') Submit
+       &nbsp;
+       a(href='/')
+         button.btn.btn-primary(type="button") Cancel

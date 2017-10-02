@@ -1,0 +1,39 @@
+users: [{
+    _id, 
+    username,
+    email,
+    password,
+    leagues: [
+        _id1,
+        _id2,...
+    ]
+},{...}]
+
+leagues: [{
+    _id,
+    name,
+    rankings: [...]
+    teams: [
+        teamid1,
+        teamid2,...
+
+    ]
+},{...}]
+
+stocks: [{
+    ...
+}]
+teams: [{
+    _id,
+    teamowner,
+    teamname: [
+        stock1,
+        stock2,...
+    ]
+
+},{...}]
+
+views: home-youll see all leagues, 
+profile- youll see your leagues,
+league- youll see all stocks and teams/your teams
+
