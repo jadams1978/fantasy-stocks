@@ -85,7 +85,10 @@ router.get('/team/:id', (req, res) => {
     }
     
 });
-
+router.post('/team/:id', (req, res) => {
+    console.log('we made it', req.body, req.params);
+    Team.update({_id:req.params.id}, {$push: { stocks: req.body.stockname } },);
+});
 
 
 /*router.post('/create-team', (req, res) => {

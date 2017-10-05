@@ -3,5 +3,12 @@ extends layout
 block content
   .container
     h1 team #{teamname}
-
- 
+  form(role='form')
+    .form-group
+      input#search.form-control.input-lg(type='stock', placeholder="Search for a stock")
+  #results
+    h6 #{stockname}
+      if (stocks)
+        each stock in stocks
+          li 
+            a(href="/team/"+team._id) #{stock.stockname} 
