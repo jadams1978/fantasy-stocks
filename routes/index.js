@@ -5,7 +5,7 @@ const passport = require('passport');
 const Account = require('../models/account');
 const Team = require('../models/team');
 const League = require('../models/league');
-
+const fetch = require('node-fetch');
 
 const router = express.Router();
 
@@ -100,6 +100,21 @@ router.post('/team/:id', (req, res) => {
 });
 
 
+
+function fetchData(stockname) {
+    console.log('fetching data');
+    fetch(`https://www.quandl.com/api/v3/datasets/${stockname}/data.json?api_key=RHAbp4b2msadmufSJuzn`)
+    .then(function(res) {
+        return res.json();
+    }).then(function(data) {
+        
+        let open = data.dataset_data.data[0][1];
+        let close = data.dataset_data.data[0][4];
+        let profit = close - open;
+        console.log('the profit for ' + stockname + "  is " + profit);
+    });
+}
+fetchData('WIKI/FB');
 /*router.post('/create-team', (req, res) => {
     Team.create({'teamname':req.body.teamname})
     console.log(req.body)

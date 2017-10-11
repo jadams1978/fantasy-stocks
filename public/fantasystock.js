@@ -9,17 +9,22 @@
     },
     dataType: 'json',
   });
-  /*$.ajax({
+  $.ajax({
     type:"GET",
     url: "https://www.quandl.com/api/v3/datasets/WIKI/FB/data.json?api_key=RHAbp4b2msadmufSJuzn"
     ,
     success: function(data) {
       console.log(data);
-    
-      
+      console.log(data.dataset_data.data[0])
+      console.log(data.dataset_data.data[0][1])
+      console.log(data.dataset_data.data[0][4])
+      let open = data.dataset_data.data[0][1];
+      let close = data.dataset_data.data[0][4];
+      let profit = close - open;
+      console.log(profit);
     },
     dataType: 'json',
-  });*/
+  });
   
 
  $(window).load(function(){
