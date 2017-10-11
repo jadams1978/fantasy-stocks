@@ -6,12 +6,10 @@ block content
     h6 #{teamId}
 
   h3 Stocks
-  mixin stockPick
-    div.stockPick
-      
-
-  +stockPick
-  +stockPick
+  if (stocks)
+    each stock in stocks
+      li #{stock.name}
+        p #{stock.description}
 
   
     

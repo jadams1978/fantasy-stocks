@@ -81,20 +81,22 @@ router.get('/team/:id', (req, res) => {
             .exec()
             .then(team => {
                 console.log(team)
-                res.render('team', { teamname: team.teamname, teamId: req.params.id });
+                res.render('team', { teamname: team.teamname, teamId: req.params.id, stocks: team.stocks });
             }) 
     }
     
 });
 router.post('/team/:id', (req, res) => {
     console.log('we made it', req.body, req.params);
-    Team.update({_id:req.params.id}, {$push: { stocks: req.body.stockname } }, function(err, doc){
+    Team.update({_id:req.params.id}, {$push: { stocks: {'name': req.body.stockname, 'description': req.body.stockdescription} } }, function(err, doc){
         if (err) {
             throw error
         }
         console.log(doc);
+        
     });
-    
+    res.redirect(`/team/${req.params.id}`);
+    console.log('cat');
 });
 
 

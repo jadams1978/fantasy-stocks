@@ -31,7 +31,7 @@
       $.getJSON('../convertcsv.json', function(data) {
         $.each(data, function(key, val){
           if ((val.FIELD1.search(regex) != -1) || (val.FIELD2.search(regex) != -1)) {
-            output += `<div class="col-md-6 well stock" data-stockname="${val.FIELD1}">`;
+            output += `<div class="col-md-6 well stock" data-stockname="${val.FIELD1}" data-stockdescription="${val.FIELD2}">`;
             output += '<div class="col-md-3"><img class="img-responsive" src="'+val.avatar+'" alt="'+ val.name +'" /></div>';
             output += '<div class="col-md-7">';
             output += '<h5>' + val.FIELD1 + '</h5>';
@@ -49,17 +49,19 @@
   });
   $('#results').on('click', '.stock', function() {
    let stockname = $(this).data('stockname');
-    $.post( "", { stockname: stockname});
+   let stockdescription = $(this).data('stockdescription');
+    $.post( "", { stockname: stockname, stockdescription: stockdescription});
     console.log($(this).data('stockname'));
+    location.reload();
     
     
     
     
   });
-  $('#results').on('click', '.stock', function() {
+  /*$('#results').on('click', '.stock', function() {
     let stockname = $(this).data('stockname');
     $('.stockPick').html(stockname);
-    console.log('stockpick');
-})})
+    console.log('stockpick');*/
+})
 
 
