@@ -53,6 +53,13 @@
     console.log($(this).data('stockname'));
     
     
-  } )
-});
+    
+    
+  });
+  $('#results').on('click', '.stock', function() {
+    let stockname = $(this).data('stockname');
+    $('.stockPick').html(stockname);
+    console.log('stockpick');
+})})
+
 

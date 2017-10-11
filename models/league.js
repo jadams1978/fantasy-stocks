@@ -4,7 +4,8 @@ const Schema = mongoose.Schema;
 const LeagueSchema = new Schema({
 	leaguename:String,
 	teams:Array,
-	createdBy:String
+	createdBy:String,
+	
  
 });
 

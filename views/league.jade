@@ -4,6 +4,7 @@ block content
   .container
     //h1 league #{leaguename}
     h6 #{leagueId}
+    
       if (teams)
         each team in teams
           li 
@@ -14,7 +15,6 @@ block content
       form(role='form', action="",method="post")
        .form-group
           input.form-control(type='text', name="teamname", placeholder='Create Team', leagueId='#{leagueId}')
-          //input.form-control(type='text', name="leaguename", placeholder='Create Team', value='#{leagueId}')
        button.btn.btn-default(type='submit') Submit
        &nbsp;
        a(href='/')

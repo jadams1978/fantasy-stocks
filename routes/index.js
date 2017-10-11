@@ -6,6 +6,7 @@ const Account = require('../models/account');
 const Team = require('../models/team');
 const League = require('../models/league');
 
+
 const router = express.Router();
 
 
@@ -80,14 +81,20 @@ router.get('/team/:id', (req, res) => {
             .exec()
             .then(team => {
                 console.log(team)
-                res.render('team', { teamname: team.teamname, john: "adams" });
+                res.render('team', { teamname: team.teamname, teamId: req.params.id });
             }) 
     }
     
 });
 router.post('/team/:id', (req, res) => {
     console.log('we made it', req.body, req.params);
-    Team.update({_id:req.params.id}, {$push: { stocks: req.body.stockname } },);
+    Team.update({_id:req.params.id}, {$push: { stocks: req.body.stockname } }, function(err, doc){
+        if (err) {
+            throw error
+        }
+        console.log(doc);
+    });
+    
 });
 
 
