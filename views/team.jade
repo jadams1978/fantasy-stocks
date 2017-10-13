@@ -10,7 +10,9 @@ block content
     each stock in stocks
       li #{stock.name}
         p #{stock.description}
-        button#drop drop
+          form(action="/deleteitem",method="delete")
+                    input(type="hidden")
+                    button.drop(type="button" data-stockname= "#{stock.name}") Drop
 
   
     

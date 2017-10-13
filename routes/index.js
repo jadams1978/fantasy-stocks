@@ -95,9 +95,26 @@ router.post('/team/:id', (req, res) => {
         console.log(doc);
         
     });
-    res.redirect(`/team/${req.params.id}`);
-    console.log('cat');
+    //res.redirect(`/team/${req.params.id}`);
+    res.end();
+})
+router.delete('/team/:id', (req, res) => {
+    console.log('cubs', req.body);
+
+    Team.update(
+        {'_id': req.params.id},
+        {$pull: {"stocks": {name: req.body.stockname}}},
+        false,
+        function(err, doc){
+            if (err) {
+                throw err
+            }
+            console.log(doc);
+        })
+        //res.redirect(`/team/${req.params.id}`);
+        res.end();
 });
+
 
 
 
@@ -115,6 +132,15 @@ function fetchData(stockname) {
     });
 }
 fetchData('WIKI/FB');
+
+function profitOrLoss(teamname) {
+    let teamStocks = [stock1, stock2, stock3, stock4, stock5];
+    let totalProfitOrLoss = 0;
+    for (let i=0; i<teamStocks.length; i++) {
+        totalProfitOrLoss += teamStocks[i];
+    }
+}
+//profitOrLoss('saq');
 /*router.post('/create-team', (req, res) => {
     Team.create({'teamname':req.body.teamname})
     console.log(req.body)
