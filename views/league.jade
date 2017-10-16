@@ -2,12 +2,10 @@ extends layout
 
 block content
   .container
-    h1 league #{leaguename}
-    h6 #{leaguename}
-    
+    h1 #{league_name}
       if (teams)
         each team in teams
-          li 
+          li Team 
             a(href="/team/"+team._id) #{team.teamname} 
 
 

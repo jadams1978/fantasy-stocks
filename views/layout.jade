@@ -13,10 +13,22 @@ html
       br
       h4.error-msg= error
       br
-
-    a(href='/') | Home
-    a(href='/register') | Join a League
-    a(href='/profile') | Profile
+  
+    nav.navbar
+      - var nav = {}; nav[title] = 'active'
+      ul
+        li(class='#{nav.Home}')
+          a(href='/') Home
+        li(class='#{nav.register}')
+          a(href='/register') Signup
+        li(class='#{nav.profile}')
+          a(href='/profile') Profile
+        li(class='#{nav.league}')
+          a(href='/league') My League
+        li(class='#{nav.team}')
+          a(href='/team') My Team
+    if (user)
+      p #{user.username}
     block content
 
     

@@ -30,7 +30,8 @@ teams: [{
         stock1,
         stock2,...
     ]
-
+Teams.find({'teammates':id"})
+calculate the score
 },{...}]
 
 views: home-youll see all leagues, 

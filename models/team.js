@@ -6,12 +6,20 @@ const TeamSchema = new Schema({
     type: String,
     default: "noname"
   },
-  leaguename: {
+  league_name: {
     type: String,
     default: "noname"
   },
+  leaguename: {
+    type: String
+    
+  },
   stocks: {
     type: Array
+  },
+  score: {
+    type: Number,
+    default: 0
   }
 
 });

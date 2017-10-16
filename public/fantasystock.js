@@ -35,9 +35,7 @@
       $.getJSON('../convertcsv.json', function(data) {
         $.each(data, function(key, val){
           if ((val.FIELD1.search(regex) != -1) || (val.FIELD2.search(regex) != -1)) {
-            output += `<div class="col-md-6 well stock" data-stockname="${val.FIELD1}" data-stockdescription="${val.FIELD2}">`;
-            output += '<div class="col-md-3"><img class="img-responsive" src="'+val.avatar+'" alt="'+ val.name +'" /></div>';
-            output += '<div class="col-md-7">';
+            output += `<div class="stock" data-stockname="${val.FIELD1}" data-stockdescription="${val.FIELD2}">`;
             output += '<h5>' + val.FIELD1 + '</h5>';
             output += '<p>' + val.FIELD2 + '</p>'
             output += '</div>';

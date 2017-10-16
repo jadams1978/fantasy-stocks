@@ -7,6 +7,7 @@ const Team = require('../models/team');
 const League = require('../models/league');
 const fetch = require('node-fetch');
 
+
 const router = express.Router();
 
 
@@ -53,22 +54,30 @@ router.post('/create-league', (req, res) => {
 router.post('/league/:leaguename', (req, res) => {
     console.log(req.body, req.params, 'dog')
 	Team.create({'teamname':req.body.teamname, 'leaguename': req.params.leaguename, 'createdBy':req.user._id })
-        
+    
         res.redirect(`/league/${req.params.leaguename}`);
 });
+
 
 router.get('/league/:id', (req, res) => {
     if (!req.user) { res.redirect('/'); }
     if (req.user) {
-        
-        //router.set('leagueId', req.params.id);
-        Team
-            .find({'leaguename':req.params.id}) 
+        let league_name = "";
+        League
+            .findOne({'_id':req.params.id}) 
             .exec()
-            .then(teams => {
-                console.log(teams)
-                res.render('league', { teams: teams, leagueId: req.params.id });
-            }) 
+            .then(league => {
+                console.log(league)
+                league_name = league.leaguename;
+        //router.set('leagueId', req.params.id);
+                Team
+                    .find({'leaguename':req.params.id}) 
+                    .exec()
+                    .then(teams => {
+                         console.log(teams)
+                        res.render('league', { teams: teams, leagueId: req.params.id, league_name: league_name });
+                }) 
+            })
     }
     
 });
@@ -131,7 +140,7 @@ function fetchData(stockname) {
         console.log('the profit for ' + stockname + "  is " + profit);
     });
 }
-fetchData('WIKI/FB');
+fetchData('WIKI/AAPL');
 
 function profitOrLoss(teamname) {
     let teamStocks = [stock1, stock2, stock3, stock4, stock5];
@@ -140,6 +149,52 @@ function profitOrLoss(teamname) {
         totalProfitOrLoss += teamStocks[i];
     }
 }
+router.get('/calc', (req, res) => {
+    console.log('calculating all scores');
+    /*Team.update(
+        {},
+        {$set: {"score": 50 }},
+        {multi: true},
+        function(err, doc){
+            if (err) {
+                throw err
+            }
+            console.log(doc);
+        })*/
+        //if (!req.user) { res.redirect('/'); }
+        //if (req.user) {
+            let league_id = "";
+            League
+                .find() 
+                .exec()
+                .then(leagues => {
+                    console.log('leagues')
+                    console.log(leagues)
+                    leagues.forEach(function(league, i) {
+                        league_id = league._id;
+                        console.log(league);
+                        //router.set('leagueId', req.params.id);
+                        Team
+                            .find({'leaguename': league_id}) 
+                            .exec()
+                            .then(teams => {
+                                console.log('teams')
+                                console.log(teams)
+                                res.json('calculating scores');
+                        }) 
+
+
+
+
+                    })
+                    
+                })
+            
+
+
+
+    
+})
 //profitOrLoss('saq');
 /*router.post('/create-team', (req, res) => {
     Team.create({'teamname':req.body.teamname})
