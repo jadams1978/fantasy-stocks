@@ -129,7 +129,7 @@ router.delete('/team/:id', (req, res) => {
 
 function fetchData(stockname) {
     console.log('fetching data');
-    fetch(`https://www.quandl.com/api/v3/datasets/${stockname}/data.json?api_key=RHAbp4b2msadmufSJuzn`)
+    return fetch(`https://www.quandl.com/api/v3/datasets/${stockname}/data.json?api_key=RHAbp4b2msadmufSJuzn`)
     .then(function(res) {
         return res.json();
     }).then(function(data) {
@@ -138,9 +138,10 @@ function fetchData(stockname) {
         let close = data.dataset_data.data[0][4];
         let profit = close - open;
         console.log('the profit for ' + stockname + "  is " + profit);
+        return profit;
     });
 }
-fetchData('WIKI/AAPL');
+//etchData('WIKI/AAPL');
 
 function profitOrLoss(teamname) {
     let teamStocks = [stock1, stock2, stock3, stock4, stock5];
@@ -168,18 +169,39 @@ router.get('/calc', (req, res) => {
                 .find() 
                 .exec()
                 .then(leagues => {
-                    console.log('leagues')
-                    console.log(leagues)
+                    
+                    console.log('dodgers win');
                     leagues.forEach(function(league, i) {
                         league_id = league._id;
+                        console.log('league');
                         console.log(league);
                         //router.set('leagueId', req.params.id);
                         Team
                             .find({'leaguename': league_id}) 
                             .exec()
                             .then(teams => {
-                                console.log('teams')
-                                console.log(teams)
+                                
+                                teams.forEach(function(team, i) {
+                                    console.log('team')
+                                    console.log(team)
+                                    let totals = [];
+                                    team.stocks.forEach(function(stock, i) {
+                                        console.log('stock');
+                                        console.log(stock);
+                                        totals.push(fetchData(stock.name));
+                                       
+                                    })
+                                    Promise.all(totals).then(values => {
+                                            console.log(values);
+                                            let teamTotal = 0;
+                                            for (let i=0; i<values.length; i++) {
+                                                teamTotal += values[i];
+                                            
+                                            }
+                                            console.log(teamTotal);
+                                        })
+                                        
+                                })
                                 res.json('calculating scores');
                         }) 
 
