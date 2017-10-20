@@ -1,7 +1,9 @@
 extends layout
 
 block content
-  h1 Team #{teamname}
+  .team-container
+    h1 Team #{teamname}
+    p score #{score}
     
 
   .stockpick-container
@@ -14,7 +16,7 @@ block content
                       input(type="hidden")
                       button.drop(type="button" data-stockname= "#{stock.name}") Drop
 
-  
+    
     
             
     
@@ -24,11 +26,11 @@ block content
     
 
     
-
-  form(role='form', action="",method="post")
-    .form-group
-      input#search.form-control.input-lg(type='stock', placeholder="Search for a stock")
-  #results
+  .stocksearch-container
+    form(role='form', action="",method="post")
+      .form-group
+        input#search.form-control.input-lg(type='stock', placeholder="Search for a stock")
+    #results
 
 
     

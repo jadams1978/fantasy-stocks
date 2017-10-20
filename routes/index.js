@@ -90,7 +90,7 @@ router.get('/team/:id', (req, res) => {
             .exec()
             .then(team => {
                 console.log(team)
-                res.render('team', { teamname: team.teamname, teamId: req.params.id, stocks: team.stocks });
+                res.render('team', { teamname: team.teamname, teamId: req.params.id, stocks: team.stocks, score: team.score });
             }) 
     }
     
@@ -199,6 +199,17 @@ router.get('/calc', (req, res) => {
                                             
                                             }
                                             console.log(teamTotal);
+                                            console.log(team);
+                                            Team.update(
+                                                {_id: team._id},
+                                                {$set: {"score": teamTotal }},
+                                                {multi: true},
+                                                function(err, doc){
+                                                    if (err) {
+                                                        throw err
+                                                    }
+                                                    console.log(doc);
+                                                })
                                         })
                                         
                                 })

@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Lora');
+@import url('https://fonts.googleapis.com/css?family=Saira');
 * {
   box-sizing: border-box;
 }
@@ -11,97 +11,55 @@ body {
   background-size: cover;
   min-height: 100vh;
   box-shadow: inset 0 0 0 1000px rgba(0,0,0,.6);
-  font-family: 'Lora', sans-serif;
+  font-family: 'Saira', sans-serif;
   margin: 0;
   padding: 0;
   
 }
-.home-container, .register-container, .login-container, .profile-container {
+.signin-register, {
+  color: #B0F95B;
+  font-size: 36px;
   text-align: center;
-  margin-top: 70px;
+  margin-top: 150px;
+}
+.register-container, .login-container {
   color: #0DFBB0;
-  font-size: 26px;
+  font-size: 32px;
 }
-
-.register-container button, .login-container button, .profile-container button, .league-container button {
+.register-container button, .login-container button {
   float: left;
-  margin-left: 2px;
+}
+.home-container {
+  text-align: center;
+  margin-top: 100px;
 }
 
-.register-container form, .login-container form, .profile-container form {
+.home-container p {
+  color: #0DFBB0;
+  font-size: 32px;
+  
+}
+
+
+.create-league {
+  width: 320px;
+  margin-left: 20px;
+  margin-top: 20px;
+  
+}
+.leagues-created li {
   margin-left: auto;
   margin-right: auto;
-  margin-top: 30px;
-  width: 320px; 
 }
-.league-container form {
-  width: 320px;
-  margin-top: 20px;
-
-}
-.league-container h1 {
-  margin-left: 20px;
-  margin-top: 70px;
-  color: #0DFBB0;
-  font-size: 26px;
-}
-.league-container li {
-  float: right;
-}
-.team-container {
-  margin-left: 20px;
-  margin-top: 70px;
-  color: #0DFBB0;
-  font-size: 26px;
-}
-.team-container p {
-  color: #E97B05;
-}
-.stocksearch-container {
-  width: 200px;
-  height: 200px;
-  margin-left: 20px;
-  margin-top: 20px;
-}
-#search {
-  width: 320px;
-  margin-top: 20px;
- 
-  
-  
-}
-#results {
-  width: 200px;
-  height: 200px;
-  margin-left: 20px;
-  margin-top: 20px;
-  
-}
-#results h5 {
-  font-weight: bold;
-  font-size: 18px;
-  color: #0DFBB0;
-}
-#results p {
-  color: #F4F71B;
-  font-size: 14px;
-}
-.stockpick-container h3 {
-  margin-top: 70px;
-  color: #E97B05;
-  font-size: 26px;
-}
-.stock-name {
-  color: #0DFBB0;
-  font-size: 18px;
-}
-.stock-description {
-  color: #F4F71B;
-  font-size: 14px;
-
+h3 {
+  color: #ED1A07;
+  font-size: 48px;
 }
 
 
+h4 {
+  color: rgb(17, 217, 50);
+}
 
 
 
@@ -127,6 +85,36 @@ li {
   list-style-type: none;
   font-size: 16px;
 }
+.stock-name {
+  color: #5EAC06;
+  font-size: 24px;
+}
+.stock-description {
+  color: #F4EC7F;
+  font-size: 16px;
+
+}
+
+
+#results {
+  width: 200px;
+  height: 200px;
+  
+
+}
+#results h5 {
+  font-weight: bold;
+  font-size: 16px;
+  color: #1122D9;
+}
+
+#search {
+  width: 320px;
+  margin-left: auto;
+  margin-top: 50px;
+  margin-right: auto;
+  
+}
 
 .navbar ul {
   list-style-type: none;
@@ -138,7 +126,7 @@ li {
 
 .navbar li {
   font-family: 'Oswald', sans-serif;
-  
+  font-size: 18px;
   line-height: 40px;
   height: 40px;
   border-bottom: 1px solid #888;
@@ -146,10 +134,9 @@ li {
 
 .navbar a {
   text-decoration: none;
-  color: #D9021B;
+  color: #fff;
   display: block;
   transition: .3s background-color;
-  font-size: 18px;
 }
 
 .navbar a:hover {

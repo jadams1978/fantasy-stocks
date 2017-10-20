@@ -1,7 +1,7 @@
 extends layout
 
 block content
-  .home-container
+  .profile-container
     if (!user)
       a(href="/login") Login
       br
@@ -17,7 +17,7 @@ block content
           a(href="/league/"+league._id) #{league.leaguename} 
 
 
-  .create-league
+  .profile-container
     form(role='form', action="/create-league",method="post")
       .form-group
         input.form-control(type='text', name="leaguename", placeholder='Create League')

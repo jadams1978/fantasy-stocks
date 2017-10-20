@@ -1,7 +1,7 @@
 extends layout
 
 block content
-  .container
+  .league-container
     h1 #{league_name}
       if (teams)
         each team in teams
@@ -9,12 +9,12 @@ block content
             a(href="/team/"+team._id) #{team.teamname} 
 
 
-
-      form(role='form', action="",method="post")
-       .form-group
-          input.form-control(type='text', name="teamname", placeholder='Create Team', leagueId='#{leagueId}')
-       button.btn.btn-default(type='submit') Submit
-       &nbsp;
-       a(href='/')
-         button.btn.btn-primary(type="button") Cancel
+  .league-container
+    form(role='form', action="",method="post")
+      .form-group
+        input.form-control(type='text', name="teamname", placeholder='Create Team', leagueId='#{leagueId}')
+      button.btn.btn-default(type='submit') Submit
+      &nbsp;
+      a(href='/')
+        button.btn.btn-primary(type="button") Cancel
  
