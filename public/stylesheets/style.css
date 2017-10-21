@@ -16,11 +16,23 @@ body {
   padding: 0;
   
 }
+.home-container {
+  width: 50%;
+}
+header {
+  font-size: 30px;
+  -webkit-transform: skewX(10deg);
+  -ms-transform: skewX(10deg);
+  transform: skewX(10deg);
+}
+.home-container p {
+  font-size: 14px;
+}
 .home-container, .register-container, .login-container, .profile-container {
   text-align: center;
   margin-top: 70px;
   color: #0DFBB0;
-  font-size: 26px;
+  font-size: 14px;
 }
 
 .register-container button, .login-container button, .profile-container button, .league-container button {
@@ -45,14 +57,24 @@ body {
   color: #0DFBB0;
   font-size: 26px;
 }
-.league-container li {
+.teams-table {
   float: right;
+  margin-right: 470px;
+  margin-top: -45px;
 }
-.team-container {
-  margin-left: 20px;
-  margin-top: 70px;
+.teams-table th {
   color: #0DFBB0;
   font-size: 26px;
+}
+.team-container {
+      
+  margin-top: 50px;
+  color: #0DFBB0;
+  font-size: 26px;
+  width: 320px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
 }
 .team-container p {
   color: #E97B05;
@@ -60,15 +82,13 @@ body {
 .stocksearch-container {
   width: 200px;
   height: 200px;
-  margin-left: 20px;
-  margin-top: 20px;
+  margin-left: 100px;
+  margin-top: 40px;
 }
 #search {
   width: 320px;
   margin-top: 20px;
- 
-  
-  
+   
 }
 #results {
   width: 200px;
@@ -91,10 +111,13 @@ body {
   color: #E97B05;
   font-size: 26px;
 }
-.stock-name {
-  color: #0DFBB0;
-  font-size: 18px;
+.drop {
+  font-size: 12px;
+  color: #D9021B;
+  float: right;
+  margin-right: 40px;
 }
+
 .stock-description {
   color: #F4F71B;
   font-size: 14px;
@@ -112,16 +135,17 @@ a {
   
   
 }
-.stockpick-container {
+.stocks-table {
   float: right;
-  width: 200px;
-  height: 200px;
+  width: 300px;
   font-size: 12px;
-  margin-right: 50px;
-  margin-top: 4px;
+  margin-right: 150px;
+  margin-top: 5px;
   
- 
-
+}
+.stock-name {
+  color: #0DFBB0;
+  font-size: 18px;
 }
 li {
   list-style-type: none;
@@ -135,14 +159,12 @@ li {
   padding: 0;
   background-color: #444;
 }
-
 .navbar li {
-  font-family: 'Oswald', sans-serif;
-  
   line-height: 40px;
   height: 40px;
   border-bottom: 1px solid #888;
 }
+
 
 .navbar a {
   text-decoration: none;
@@ -150,6 +172,7 @@ li {
   display: block;
   transition: .3s background-color;
   font-size: 18px;
+  
 }
 
 .navbar a:hover {
