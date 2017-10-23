@@ -4,15 +4,15 @@ block content
   .league-container
     h1 #{league_name}
 
-    .teams-table
-      table
-        thead
-          tr: th Teams
-        tbody
-          each team in teams
-            tr
-              td 
-                a(href="/team/"+team._id) #{team.teamname} 
+  .teams-table
+    table
+      thead
+        tr: th Teams
+      tbody
+        each team in teams
+          tr
+            td 
+              a(href="/team/"+team._id) #{team.teamname} 
 
   .league-container
     form(role='form', action="",method="post")

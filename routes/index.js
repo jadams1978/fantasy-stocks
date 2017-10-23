@@ -75,7 +75,7 @@ router.get('/league/:id', (req, res) => {
                     .exec()
                     .then(teams => {
                          console.log(teams)
-                        res.render('league', { teams: teams, leagueId: req.params.id, league_name: league_name });
+                        res.render('league', { teams: teams, leagueId: req.params.id, league_name: league_name, user : req.user });
                 }) 
             })
     }
@@ -90,7 +90,7 @@ router.get('/team/:id', (req, res) => {
             .exec()
             .then(team => {
                 console.log(team)
-                res.render('team', { teamname: team.teamname, teamId: req.params.id, stocks: team.stocks, score: team.score });
+                res.render('team', { teamname: team.teamname, teamId: req.params.id, stocks: team.stocks, score: team.score, user : req.user});
             }) 
     }
     

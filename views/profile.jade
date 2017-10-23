@@ -2,19 +2,18 @@ extends layout
 
 block content
   .profile-container
-    if (!user)
-      a(href="/login") Login
-      br
-      a(href="/register") Register
-    if (user)
-      p You are currently logged in as #{user.username}
-      a(href="/logout") Logout
+    h1 #{user.username}
+    a(href="/logout") Logout
 
-
-    if (leagues)
-      each league in leagues
-        li.leagues-created 
-          a(href="/league/"+league._id) #{league.leaguename} 
+  .leagues-table
+      table
+        thead
+          tr: th Leagues
+        tbody
+          each league in leagues
+            tr
+              td 
+                a(href="/league/"+league._id) #{league.leaguename}  
   
   .profile-container
     form(role='form', action="/create-league",method="post")

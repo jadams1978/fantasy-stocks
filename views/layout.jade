@@ -4,7 +4,9 @@ html
     title= title
     meta(name='viewport', content='width=device-width, initial-scale=1.0')
     link(href='http://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css', rel='stylesheet', media='screen')
-    link(rel='stylesheet', href='/stylesheets/style.css')
+    link(rel='stylesheet', href='/stylesheets/nav.css')
+    link(rel='stylesheet', href='/stylesheets/newstyles.css')
+    //link(rel='stylesheet', href='/stylesheets/style.css')
     script(src='http://code.jquery.com/jquery.js')
     script(src='http://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js')
     script(src='http://localhost:3000/fantasystock.js')  
@@ -13,20 +15,22 @@ html
       br
       h4.error-msg= error
       br
-  
-    nav.navbar
-      - var nav = {}; nav[title] = 'active'
-      ul
-        
-        li(class='#{nav.Home}')
-          a(href='/') Home
-        li(class='#{nav.profile}')
-          a(href='/profile') Profile
-        li(class='#{nav.league}')
-          a(href='/league') My League
-        li(class='#{nav.team}')
-          a(href='/team') My Team
+
+    #myTopnav.topnav
+      
+      a(href='/' class="logo") 
+        span.glyphicon.glyphicon-usd TOCK 
+      if (!user)
+        a(href="/login") Login
+        a(href="/register") Register
+      if (user)
+        a(href="/profile") #{user.username}
+      a.icon(href='javascript:void(0);', style='font-size:15px;', onclick='myFunction()') ☰
+  .container
     block content
+
+    
+      
 
     
 
