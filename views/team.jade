@@ -14,7 +14,7 @@ block content
           each stock in stocks
             tr
               td.stock-name #{stock.name} 
-                button.drop(type="button" data-stockname= "#{stock.name}") Drop
+                button.drop(type="button" data-stockname= "#{stock.name}") Drop 
             tr
               td.stock-description #{stock.description}
             
@@ -35,7 +35,8 @@ block content
     form(role='form', action="",method="post")
       .form-group
         input#search.form-control.input-lg(type='stock', placeholder="Search for a stock")
-    #results
+        #results
+      
 
 
     

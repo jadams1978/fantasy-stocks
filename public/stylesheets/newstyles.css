@@ -1,3 +1,74 @@
+@import url('https://fonts.googleapis.com/css?family=Lora');
+
 * {
-    border: 1px dashed black;
+    box-sizing: border-box;
+    border: 1px dotted black;
+}
+body {
+    min-height: 100vh;
+    font-family: 'Lora', sans-serif;
+    margin: 0;
+    padding: 0;
+    font-size: 20px;
+    
+  }
+  a {
+    color: #16EFF2;
+  }
+  h1 {
+    font-weight: bold;
+  }
+  h5 {
+    font-size: 20px;
+    line-height: 1.5;
+    margin-bottom: -65px;
+  }
+  #results {
+    margin-top: -35px;
+  }
+  .home-container, .register-container, .login-container, .profile-container, .leagues-table, .league-container, .teams-table, .team-container, .stocks-table, .row {
+    margin-top: 30px;
+    padding: 10px;
+    color: #08CD0B;
+    line-height: 1.5;
+  }
+  .team-container p {
+    color: #2C9BF6;
+    font-style: italic;  
+  }
+  .stock-name {
+    color: #BF860C;
+    
+  }
+  .stock-description {
+    color: #D5660B;
+    font-style: italic;
+  }
+  
+  th {
+    font-size: 36px;
+  } 
+  .drop {
+    float: right;
+    background-color: red;
+    border-radius: 12px;
+    border: 2px solid black;
+    color: black;
+    font-size: 12px;
+    width: 50px:
+  }
+  .add {
+    float: right;
+    background-color: blue;
+    border-radius: 12px;
+    border: 2px solid black;
+    color: black;
+    font-size: 12px;
+    width: 50px;
+  }
+
+
+.row {
+    margin-left: 0;
+    margin-right: 0;
 }

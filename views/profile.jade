@@ -5,6 +5,15 @@ block content
     h1 #{user.username}
     a(href="/logout") Logout
 
+  .profile-container
+    form(role='form', action="/create-league",method="post")
+      .form-group
+        input.form-control(type='text', name="leaguename", placeholder='Create League')
+      button.btn.btn-default(type='submit') Submit
+      &nbsp;
+      a(href='/')
+        button.btn.btn-primary(type="button") Cancel
+        
   .leagues-table
       table
         thead
@@ -15,11 +24,4 @@ block content
               td 
                 a(href="/league/"+league._id) #{league.leaguename}  
   
-  .profile-container
-    form(role='form', action="/create-league",method="post")
-      .form-group
-        input.form-control(type='text', name="leaguename", placeholder='Create League')
-      button.btn.btn-default(type='submit') Submit
-      &nbsp;
-      a(href='/')
-        button.btn.btn-primary(type="button") Cancel
+  

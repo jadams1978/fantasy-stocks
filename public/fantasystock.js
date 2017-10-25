@@ -36,11 +36,11 @@
         $.each(data, function(key, val){
           if ((val.FIELD1.search(regex) != -1) || (val.FIELD2.search(regex) != -1)) {
             output += `<div class="stock" data-stockname="${val.FIELD1}" data-stockdescription="${val.FIELD2}">`;
-            output += '<h5>' + val.FIELD1 + '</h5>';
-            output += '<p>' + val.FIELD2 + '</p>'
+            output += '<h5 class="stock-name">' + val.FIELD1 + '<button class="add" type="button">' + 'Add' + '</button>';'</h5>';
+            output += '<p class="stock-description">' + val.FIELD2 + '</p>';
             output += '</div>';
             output += '</div>';
-            output += '</div><div class="row">'
+            output += '</div><div class="row">';
          
             count++;
           }
