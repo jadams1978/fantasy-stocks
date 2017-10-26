@@ -4,7 +4,13 @@ block content
   .team-container
     h1 Team #{teamname}
     p score #{score}
-    
+
+  .stocksearch-container
+    form(role='form', action="",method="post")
+      .form-group
+        input#search.form-control.input-lg(type='stock', placeholder="Search for a stock")
+        #results
+        
 
   .stocks-table
       table
@@ -31,12 +37,7 @@ block content
     
 
     
-  .stocksearch-container
-    form(role='form', action="",method="post")
-      .form-group
-        input#search.form-control.input-lg(type='stock', placeholder="Search for a stock")
-        #results
-      
+  
 
 
     

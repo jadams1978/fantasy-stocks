@@ -38,3 +38,19 @@ views: home-youll see all leagues,
 profile- youll see your leagues,
 league- youll see all stocks and teams/your teams
 
+mlab
+heroku
+//show all leagues
+//add ownername next to team
+//add ownername next to league
+//add teams to team array in league
+each user can only have one team in each league
+
+pick winner:
+    calculate scores at end of each day,
+    pair teams,
+    compare scores,
+    add win or loss to team,
+
+end of season:
+    standings

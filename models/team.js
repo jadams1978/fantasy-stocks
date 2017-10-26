@@ -20,7 +20,9 @@ const TeamSchema = new Schema({
   score: {
     type: Number,
     default: 0
-  }
+    
+  },
+  teamOwner:String
 
 });
 

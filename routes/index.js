@@ -12,7 +12,14 @@ const router = express.Router();
 
 
 router.get('/', (req, res) => {
-    res.render('index', { user : req.user });
+    League
+    .find() 
+    .exec()
+    .then(leagues => {
+        console.log(leagues)
+        res.render('index', { user : req.user, leagues: leagues });
+    }) 
+    
 })
 
 router.get('/profile', (req, res) => {
@@ -31,7 +38,11 @@ router.get('/profile', (req, res) => {
 });
 
 router.post('/create-league', (req, res) => {
-	League.create({'leaguename':req.body.leaguename, 'createdBy':req.user._id})
+    League.create({
+                'leaguename':req.body.leaguename,
+                'createdBy':req.user._id,
+                'leagueOwner':req.user.username
+                })
         //res.render('index', { user : req.user });
         res.redirect('/profile');
 });
@@ -53,8 +64,26 @@ router.post('/create-league', (req, res) => {
 });*/
 router.post('/league/:leaguename', (req, res) => {
     console.log(req.body, req.params, 'dog')
-	Team.create({'teamname':req.body.teamname, 'leaguename': req.params.leaguename, 'createdBy':req.user._id })
+	Team.create({
+        'teamname':req.body.teamname, 
+        'leaguename': req.params.leaguename, 
+        'createdBy':req.user._id,
+        'teamOwner':req.user.username
+     },function(doc, x) {
+         console.log(doc, x);
+         console.log('apple');
+         League.update({_id:req.params.leaguename},
+            {$push: { 
+                teams: {'name': req.body.teamname, 'teamId': x._id, 'teamOwner':req.user.username } } }, function(err, doc){
+            if (err) {
+                throw error
+            }
+            console.log(doc);
+            
+        });
+     })
     
+     
         res.redirect(`/league/${req.params.leaguename}`);
 });
 
@@ -222,20 +251,31 @@ router.get('/calc', (req, res) => {
                     })
                     
                 })
+                var splitPairs = function(arr) {
+                    var pairs = [];
+                    for (var i=0 ; i<arr.length ; i+=2) {
+                        if (arr[i+1] !== undefined) {
+                            pairs.push ([arr[i], arr[i+1]]);
+                        } else {
+                            pairs.push ([arr[i]]);
+                        }
+                    }
+                    return pairs;
+                };
+                var shuffle = function(array) {
+                    temp = [];
+                    for (var i = 0; i < array.length ; i++) {
+                      temp.push(array.splice(Math.floor(Math.random()*array.length),1));
+                    }
+                    return temp;
+                 };
             
 
 
 
     
 })
-//profitOrLoss('saq');
-/*router.post('/create-team', (req, res) => {
-    Team.create({'teamname':req.body.teamname})
-    console.log(req.body)
-    console.log('poop')
-        //res.render('index', { user : req.user });
-        res.render('team', {teamname:req.body.teamname});
-});*/
+
 
 
 
