@@ -17,6 +17,30 @@ leagues: [{
         teamid1,
         teamid2,...
 
+    ],
+    schedule: [
+        {
+            week:1,
+            games: [
+                {
+                    name:game1,
+                    winner:patriots,
+                    date:oct.28th
+                    matchups:[
+                        {
+                            team:patriots, score:57
+                        },
+                        {
+                            team:colts, score:2
+                        },
+                        {...}
+                    ]
+                    
+                },
+               {...} 
+            ]
+        },
+        {...}
     ]
 },{...}]
 
@@ -29,6 +53,12 @@ teams: [{
     teamname: [
         stock1,
         stock2,...
+    ]
+    games:[{
+        oppenent:patriots,
+        outcome:loss
+    }
+
     ]
 Teams.find({'teammates':id"})
 calculate the score

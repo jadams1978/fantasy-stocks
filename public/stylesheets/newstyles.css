@@ -2,8 +2,9 @@
 
 * {
     box-sizing: border-box;
-    //border: 1px dotted black;
+    border: 1px dotted black;
 }
+
 body {
     min-height: 100vh;
     font-family: 'Lora', sans-serif;
@@ -71,4 +72,9 @@ body {
 .row {
     margin-left: 0;
     margin-right: 0;
+}
+@media screen and (min-width: 640px) {
+  * {
+    border: 1px dotted yellow;
+  }
 }

@@ -76,6 +76,27 @@
      location.reload();
 })
 
+
+
+
+$('.schedule').on('click', function() {
+
+  
+   $.ajax({
+    url: '',
+    type: 'PUT',
+    data: "stockname",
+    dataType: 'json',
+    success: function(result) {console.log(result);},
+    error: function(result){console.log(result);}
+});
+   //location.reload();
+})
+
+
+
+
+
  })
  function myFunction() {
   var x = document.getElementById("myTopnav");

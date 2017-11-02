@@ -251,24 +251,7 @@ router.get('/calc', (req, res) => {
                     })
                     
                 })
-                var splitPairs = function(arr) {
-                    var pairs = [];
-                    for (var i=0 ; i<arr.length ; i+=2) {
-                        if (arr[i+1] !== undefined) {
-                            pairs.push ([arr[i], arr[i+1]]);
-                        } else {
-                            pairs.push ([arr[i]]);
-                        }
-                    }
-                    return pairs;
-                };
-                var shuffle = function(array) {
-                    temp = [];
-                    for (var i = 0; i < array.length ; i++) {
-                      temp.push(array.splice(Math.floor(Math.random()*array.length),1));
-                    }
-                    return temp;
-                 };
+                
             
 
 
@@ -327,5 +310,51 @@ router.get('/logout', (req, res, next) => {
 router.get('/ping', (req, res) => {
     res.status(200).send("pong!");
 });
+
+router.put('/league/:id', (req, res) => {
+    console.log('schedule', req.params)
+    League
+        .findOne({'_id':req.params.id}, function(err, league) {
+
+            let schedule = tournament(league.teams.length);
+            league.schedule.push(schedule);
+                league.save();
+        }) 
+        /*.exec()
+        .then(league => {
+            console.log(league)
+            let schedule = tournament(league.length);
+            league.schedule = schedule;
+                league.save();
+        })*/
+    //res.end();
+
+})
+
+function tournament(n) {
+    //var nr = n - 1
+    var schedule = [];
+
+    for (var r = 1; r < n; r++) {
+    	  var week = {'week':r, 'games':[]}
+        for (i = 1; i <= n / 2; i++) {
+            let game = {'gamenum':i, 'matchups':[]}
+            if (i == 1) {
+                game.matchups.push({'team':1});
+                game.matchups.push({'team':(n - 1 + r - 1) % (n - 1) + 2});
+            } else {
+                game.matchups.push({'team':(r + i - 2) % (n - 1) + 2});
+                game.matchups.push({'team':(n - 1 + r - i) % (n - 1) + 2});
+            }
+            //bigarr.push(arr);
+            week.games.push(game);
+        }
+        schedule.push(week)
+    }
+    console.log(schedule)
+    return schedule;
+}
+
+
 
 module.exports = router;

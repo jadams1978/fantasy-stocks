@@ -5,7 +5,8 @@ const LeagueSchema = new Schema({
 	leaguename:String,
 	teams:Array,
 	createdBy:String,
-	leagueOwner:String
+	leagueOwner:String,
+	schedule:Array
 	
  
 });
