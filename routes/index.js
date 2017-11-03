@@ -92,19 +92,21 @@ router.get('/league/:id', (req, res) => {
     if (!req.user) { res.redirect('/'); }
     if (req.user) {
         let league_name = "";
+        let schedule;
         League
             .findOne({'_id':req.params.id}) 
             .exec()
             .then(league => {
                 console.log(league)
                 league_name = league.leaguename;
+                schedule = league.schedule;
         //router.set('leagueId', req.params.id);
                 Team
                     .find({'leaguename':req.params.id}) 
                     .exec()
                     .then(teams => {
                          console.log(teams)
-                        res.render('league', { teams: teams, leagueId: req.params.id, league_name: league_name, user : req.user });
+                        res.render('league', { teams: teams, leagueId: req.params.id, league_name: league_name, user : req.user, schedule: schedule });
                 }) 
             })
     }
@@ -316,8 +318,8 @@ router.put('/league/:id', (req, res) => {
     League
         .findOne({'_id':req.params.id}, function(err, league) {
 
-            let schedule = tournament(league.teams.length);
-            league.schedule.push(schedule);
+            let schedule = tournament(league.teams);
+            league.schedule = schedule;
                 league.save();
         }) 
         /*.exec()
@@ -331,20 +333,21 @@ router.put('/league/:id', (req, res) => {
 
 })
 
-function tournament(n) {
-    //var nr = n - 1
+function tournament(teams) {
+    var n = teams.length;
     var schedule = [];
 
     for (var r = 1; r < n; r++) {
     	  var week = {'week':r, 'games':[]}
         for (i = 1; i <= n / 2; i++) {
             let game = {'gamenum':i, 'matchups':[]}
+            console.log(teams[i].name, i);
             if (i == 1) {
-                game.matchups.push({'team':1});
-                game.matchups.push({'team':(n - 1 + r - 1) % (n - 1) + 2});
+                game.matchups.push({'team':teams[0]});
+                game.matchups.push({'team':teams[(n - 1 + r - 1) % (n - 1) + 1]});
             } else {
-                game.matchups.push({'team':(r + i - 2) % (n - 1) + 2});
-                game.matchups.push({'team':(n - 1 + r - i) % (n - 1) + 2});
+                game.matchups.push({'team':teams[(r + i - 2) % (n - 1) + 1]});
+                game.matchups.push({'team':teams[(n - 1 + r - i) % (n - 1) + 1]});
             }
             //bigarr.push(arr);
             week.games.push(game);
@@ -354,6 +357,7 @@ function tournament(n) {
     console.log(schedule)
     return schedule;
 }
+
 
 
 
