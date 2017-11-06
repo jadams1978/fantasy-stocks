@@ -37,6 +37,24 @@ body {
     color: #2C9BF6;
     font-style: italic;  
   }
+  .schedule-container {
+    margin-top: 30px;
+    padding: 10px;
+    color: #9B15DA;
+    line-height: 1.5;
+  }
+  .schedule-container i {
+    color: #158BDA;
+    
+  }
+  .schedule-container i:last-child:before {
+    content: "vs ";
+    color: red;
+    
+  }
+  li {
+    list-style-type: none;
+  }
   .stock-name {
     color: #BF860C;
     

@@ -240,8 +240,14 @@ router.get('/calc', (req, res) => {
                                                         throw err
                                                     }
                                                     console.log(doc);
-                                                })
-                                        })
+                                            })
+                                            //League.update(
+                                                //'teams.teamId': new ObjectId(team._id)},
+                                                //{'$set':{'teams.$.score':teamTotal}}
+                                            //
+                                            //db.leagues.update({'teams.teamId': new ObjectId("5a00d45f16fa2512f481bba3")},{'$set':{'teams.$.score':70}})
+                                            //League.update()
+                                        })  
                                         
                                 })
                                 res.json('calculating scores');
@@ -317,11 +323,19 @@ router.put('/league/:id', (req, res) => {
     console.log('schedule', req.params)
     League
         .findOne({'_id':req.params.id}, function(err, league) {
+            console.log(league.teams);
+            console.log('football')
+            Team.find({'leaguename': req.params.id}, function(err, teams) {
+                console.log(teams, "blue");
+                let schedule = tournament(teams);
+                league.schedule = schedule;
+                    league.save();
+            })
 
-            let schedule = tournament(league.teams);
-            league.schedule = schedule;
-                league.save();
+
+            
         }) 
+        
         /*.exec()
         .then(league => {
             console.log(league)
@@ -341,7 +355,7 @@ function tournament(teams) {
     	  var week = {'week':r, 'games':[]}
         for (i = 1; i <= n / 2; i++) {
             let game = {'gamenum':i, 'matchups':[]}
-            console.log(teams[i].name, i);
+            //console.log(teams[i], i);
             if (i == 1) {
                 game.matchups.push({'team':teams[0]});
                 game.matchups.push({'team':teams[(n - 1 + r - 1) % (n - 1) + 1]});

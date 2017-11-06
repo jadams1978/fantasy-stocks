@@ -32,8 +32,9 @@ block content
       li Week: #{week.week}
       ul
         each game in week.games
-          li Game Number: #{game.gamenum}
-          each matchup in game.matchups
-            i Team Name:  #{matchup.team.name}
+          li 
+            p Game Number: #{game.gamenum}
+            each matchup in game.matchups 
+              i #{matchup.team.teamname} #{matchup.team.score}
       
  
