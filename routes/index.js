@@ -205,9 +205,29 @@ router.get('/calc', (req, res) => {
        					leagueTotals.push(updateTeams(team))                                        
 				})
    			        Promise.all(leagueTotals).then(l => {
-  				    console.log('update league') 	
 				    console.log(l) 
-				    league.leaguename = 'ya bbay'
+
+					let now = 3;
+					league.schedule.forEach(function(week){
+					  if(now >= week.week && now < week.week + 1){
+					    console.log(now)
+						  week.games.forEach(function(game){
+						  game.matchups.forEach(function(match){
+						  console.log('sup '+match.team.teamname)
+
+						var result = l.filter(function( obj ) {
+							console.log(obj)
+  							return obj.teamname == match.team.teamname;
+						});
+						console.log(result,'result')
+						match.team.score = result[0].score; 
+					     })
+					   })
+					  }
+					})
+  	
+					league.markModified('schedule');
+
 				    league.save(); 
 				
 			            console.log(league) 
@@ -239,6 +259,10 @@ router.get('/calc', (req, res) => {
 
     
 })
+
+
+
+
 
 
 function updateTeams(team){
