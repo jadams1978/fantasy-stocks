@@ -16,7 +16,7 @@ router.get('/', (req, res) => {
     .find() 
     .exec()
     .then(leagues => {
-        console.log(leagues)
+        //console.log(leagues)
         res.render('index', { user : req.user, leagues: leagues });
     }) 
     
@@ -25,12 +25,12 @@ router.get('/', (req, res) => {
 router.get('/profile', (req, res) => {
     if (!req.user) { res.redirect('/'); }
     if (req.user) {
-        console.log(req.user);
+        //console.log(req.user);
         League
             .find({'createdBy':req.user._id}) 
             .exec()
             .then(leagues => {
-                console.log(leagues)
+                //console.log(leagues)
                 res.render('profile', { user : req.user, leagues: leagues });
             }) 
     }
@@ -56,29 +56,29 @@ router.post('/create-league', (req, res) => {
             .findOne({'_id':req.params.id}) 
             .exec()
             .then(league => {
-                console.log(league)
+                //console.log(league)
                 res.render('league', { leaguename: league.leaguename, john: "adams", teams: league.teams, leagueId: req.params.id });
             }) 
     }
     
 });*/
 router.post('/league/:leaguename', (req, res) => {
-    console.log(req.body, req.params, 'dog')
+    //console.log(req.body, req.params, 'dog')
 	Team.create({
         'teamname':req.body.teamname, 
         'leaguename': req.params.leaguename, 
         'createdBy':req.user._id,
         'teamOwner':req.user.username
      },function(doc, x) {
-         console.log(doc, x);
-         console.log('apple');
+         //console.log(doc, x);
+         //console.log('apple');
          League.update({_id:req.params.leaguename},
             {$push: { 
                 teams: {'name': req.body.teamname, 'teamId': x._id, 'teamOwner':req.user.username } } }, function(err, doc){
             if (err) {
                 throw error
             }
-            console.log(doc);
+            //console.log(doc);
             
         });
      })
@@ -97,7 +97,7 @@ router.get('/league/:id', (req, res) => {
             .findOne({'_id':req.params.id}) 
             .exec()
             .then(league => {
-                console.log(league)
+                //console.log(league)
                 league_name = league.leaguename;
                 schedule = league.schedule;
         //router.set('leagueId', req.params.id);
@@ -105,7 +105,7 @@ router.get('/league/:id', (req, res) => {
                     .find({'leaguename':req.params.id}) 
                     .exec()
                     .then(teams => {
-                         console.log(teams)
+                         //console.log(teams)
                         res.render('league', { teams: teams, leagueId: req.params.id, league_name: league_name, user : req.user, schedule: schedule });
                 }) 
             })
@@ -120,26 +120,26 @@ router.get('/team/:id', (req, res) => {
             .findOne({'_id':req.params.id}) 
             .exec()
             .then(team => {
-                console.log(team)
+                //console.log(team)
                 res.render('team', { teamname: team.teamname, teamId: req.params.id, stocks: team.stocks, score: team.score, user : req.user});
             }) 
     }
     
 });
 router.post('/team/:id', (req, res) => {
-    console.log('we made it', req.body, req.params);
+    //console.log('we made it', req.body, req.params);
     Team.update({_id:req.params.id}, {$push: { stocks: {'name': req.body.stockname, 'description': req.body.stockdescription} } }, function(err, doc){
         if (err) {
             throw error
         }
-        console.log(doc);
+        //console.log(doc);
         
     });
     //res.redirect(`/team/${req.params.id}`);
     res.end();
 })
 router.delete('/team/:id', (req, res) => {
-    console.log('cubs', req.body);
+    //console.log('cubs', req.body);
 
     Team.update(
         {'_id': req.params.id},
@@ -149,7 +149,7 @@ router.delete('/team/:id', (req, res) => {
             if (err) {
                 throw err
             }
-            console.log(doc);
+            //console.log(doc);
         })
         //res.redirect(`/team/${req.params.id}`);
         res.end();
@@ -159,7 +159,7 @@ router.delete('/team/:id', (req, res) => {
 
 
 function fetchData(stockname) {
-    console.log('fetching data');
+    //console.log('fetching data');
     return fetch(`https://www.quandl.com/api/v3/datasets/${stockname}/data.json?api_key=RHAbp4b2msadmufSJuzn`)
     .then(function(res) {
         return res.json();
@@ -168,7 +168,7 @@ function fetchData(stockname) {
         let open = data.dataset_data.data[0][1];
         let close = data.dataset_data.data[0][4];
         let profit = close - open;
-        console.log('the profit for ' + stockname + "  is " + profit);
+        //console.log('the profit for ' + stockname + "  is " + profit);
         return profit;
     });
 }
@@ -182,26 +182,15 @@ function profitOrLoss(teamname) {
     }
 }
 router.get('/calc', (req, res) => {
-    console.log('calculating all scores');
-    /*Team.update(
-        {},
-        {$set: {"score": 50 }},
-        {multi: true},
-        function(err, doc){
-            if (err) {
-                throw err
-            }
-            console.log(doc);
-        })*/
-        //if (!req.user) { res.redirect('/'); }
-        //if (req.user) {
+    //console.log('calculating all scores');
+
             let league_id = "";
             League
                 .find() 
                 .exec()
                 .then(leagues => {
                     
-                    console.log('dodgers win');
+                    //console.log('dodgers win');
                     leagues.forEach(function(league, i) {
                         league_id = league._id;
                         console.log('league');
@@ -211,49 +200,33 @@ router.get('/calc', (req, res) => {
                             .find({'leaguename': league_id}) 
                             .exec()
                             .then(teams => {
-                                
+                                let leagueTotals = []  
                                 teams.forEach(function(team, i) {
-                                    console.log('team')
-                                    console.log(team)
-                                    let totals = [];
-                                    team.stocks.forEach(function(stock, i) {
-                                        console.log('stock');
-                                        console.log(stock);
-                                        totals.push(fetchData(stock.name));
-                                       
-                                    })
-                                    Promise.all(totals).then(values => {
-                                            console.log(values);
-                                            let teamTotal = 0;
-                                            for (let i=0; i<values.length; i++) {
-                                                teamTotal += values[i];
-                                            
-                                            }
-                                            console.log(teamTotal);
-                                            console.log(team);
-                                            Team.update(
-                                                {_id: team._id},
-                                                {$set: {"score": teamTotal }},
-                                                {multi: true},
-                                                function(err, doc){
-                                                    if (err) {
-                                                        throw err
-                                                    }
-                                                    console.log(doc);
-                                            })
-                                            //League.update(
-                                                //'teams.teamId': new ObjectId(team._id)},
-                                                //{'$set':{'teams.$.score':teamTotal}}
-                                            //
-                                            //db.leagues.update({'teams.teamId': new ObjectId("5a00d45f16fa2512f481bba3")},{'$set':{'teams.$.score':70}})
-                                            //League.update()
-                                        })  
-                                        
-                                })
+       					leagueTotals.push(updateTeams(team))                                        
+				})
+   			        Promise.all(leagueTotals).then(l => {
+  				    console.log('update league') 	
+				    console.log(l) 
+				    league.leaguename = 'ya bbay'
+				    league.save(); 
+				
+			            console.log(league) 
+				    console.log(' '); 	
+				    console.log(' '); 	
+				    console.log(' '); 	
+				    console.log(' '); 	
+				    console.log(' '); 	
+				    console.log(' '); 	
+				
+			        })
+			    
                                 res.json('calculating scores');
-                        }) 
+                             }) 
 
 
+
+                      	 console.log('league');
+                       	console.log(league);
 
 
                     })
@@ -267,6 +240,44 @@ router.get('/calc', (req, res) => {
     
 })
 
+
+function updateTeams(team){
+
+    let totals = [];
+    team.stocks.forEach(function(stock, i) {
+	  totals.push(fetchData(stock.name));
+       
+    })
+   return Promise.all(totals).then(values => {
+	    let teamTotal = 0;
+	    for (let i=0; i<values.length; i++) {
+		teamTotal += values[i];
+	    
+	    }
+	    //console.log(teamTotal);
+	    console.log(team.teamname + teamTotal);
+
+
+	     Team.update(
+		{_id: team._id},
+		{$set: {"score": teamTotal }},
+		{multi: true},
+		function(err, doc){
+		    if (err) {
+			throw err
+		    }
+		})
+
+		return {teamname:team.teamname, score: teamTotal}
+	     
+	    //League.update(
+		//'teams.teamId': new ObjectId(team._id)},
+		//{'$set':{'teams.$.score':teamTotal}}
+	    //
+	    //db.leagues.update({'teams.teamId': new ObjectId("5a00d45f16fa2512f481bba3")},{'$set':{'teams.$.score':70}})
+	    //League.update()
+	})  
+}
 
 
 
@@ -320,13 +331,13 @@ router.get('/ping', (req, res) => {
 });
 
 router.put('/league/:id', (req, res) => {
-    console.log('schedule', req.params)
+    //console.log('schedule', req.params)
     League
         .findOne({'_id':req.params.id}, function(err, league) {
-            console.log(league.teams);
-            console.log('football')
+            //console.log(league.teams);
+            //console.log('football')
             Team.find({'leaguename': req.params.id}, function(err, teams) {
-                console.log(teams, "blue");
+                //console.log(teams, "blue");
                 let schedule = tournament(teams);
                 league.schedule = schedule;
                     league.save();
@@ -335,15 +346,6 @@ router.put('/league/:id', (req, res) => {
 
             
         }) 
-        
-        /*.exec()
-        .then(league => {
-            console.log(league)
-            let schedule = tournament(league.length);
-            league.schedule = schedule;
-                league.save();
-        })*/
-    //res.end();
 
 })
 
@@ -355,7 +357,7 @@ function tournament(teams) {
     	  var week = {'week':r, 'games':[]}
         for (i = 1; i <= n / 2; i++) {
             let game = {'gamenum':i, 'matchups':[]}
-            //console.log(teams[i], i);
+            ////console.log(teams[i], i);
             if (i == 1) {
                 game.matchups.push({'team':teams[0]});
                 game.matchups.push({'team':teams[(n - 1 + r - 1) % (n - 1) + 1]});
@@ -368,7 +370,7 @@ function tournament(teams) {
         }
         schedule.push(week)
     }
-    console.log(schedule)
+    //console.log(schedule)
     return schedule;
 }
 
