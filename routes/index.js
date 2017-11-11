@@ -183,47 +183,38 @@ function profitOrLoss(teamname) {
 }
 router.get('/calc', (req, res) => {
     console.log('calculating all scores');
-    /*Team.update(
-        {},
-        {$set: {"score": 50 }},
-        {multi: true},
-        function(err, doc){
-            if (err) {
-                throw err
-            }
-            console.log(doc);
-        })*/
-        //if (!req.user) { res.redirect('/'); }
-        //if (req.user) {
+    
             let league_id = "";
             League
                 .find() 
                 .exec()
                 .then(leagues => {
                     
-                    console.log('dodgers win');
+                    
                     leagues.forEach(function(league, i) {
                         league_id = league._id;
                         console.log('league');
                         console.log(league);
-                        //router.set('leagueId', req.params.id);
+                        console.log(league.schedule.games);
+                        league.foo = 'bar';
+                        league.save();
+                        
                         Team
                             .find({'leaguename': league_id}) 
                             .exec()
                             .then(teams => {
                                 
                                 teams.forEach(function(team, i) {
-                                    console.log('team')
-                                    console.log(team)
+                                    
+                                    
                                     let totals = [];
                                     team.stocks.forEach(function(stock, i) {
-                                        console.log('stock');
-                                        console.log(stock);
+                                        
                                         totals.push(fetchData(stock.name));
                                        
                                     })
                                     Promise.all(totals).then(values => {
-                                            console.log(values);
+                                            
                                             let teamTotal = 0;
                                             for (let i=0; i<values.length; i++) {
                                                 teamTotal += values[i];
@@ -233,20 +224,15 @@ router.get('/calc', (req, res) => {
                                             console.log(team);
                                             Team.update(
                                                 {_id: team._id},
-                                                {$set: {"score": teamTotal }},
+                                                {$set: {"score": teamTotal, "now": new Date() }},
                                                 {multi: true},
                                                 function(err, doc){
                                                     if (err) {
                                                         throw err
                                                     }
-                                                    console.log(doc);
+
                                             })
-                                            //League.update(
-                                                //'teams.teamId': new ObjectId(team._id)},
-                                                //{'$set':{'teams.$.score':teamTotal}}
-                                            //
-                                            //db.leagues.update({'teams.teamId': new ObjectId("5a00d45f16fa2512f481bba3")},{'$set':{'teams.$.score':70}})
-                                            //League.update()
+                                            
                                         })  
                                         
                                 })
@@ -329,22 +315,10 @@ router.put('/league/:id', (req, res) => {
                 console.log(teams, "blue");
                 let schedule = tournament(teams);
                 league.schedule = schedule;
-                    league.save();
-            })
-
-
-            
-        }) 
-        
-        /*.exec()
-        .then(league => {
-            console.log(league)
-            let schedule = tournament(league.length);
-            league.schedule = schedule;
                 league.save();
-        })*/
-    //res.end();
-
+            })
+    
+        }) 
 })
 
 function tournament(teams) {
@@ -352,7 +326,10 @@ function tournament(teams) {
     var schedule = [];
 
     for (var r = 1; r < n; r++) {
-    	  var week = {'week':r, 'games':[]}
+        var dat = new Date();
+        let date = dat.addDays(r);
+        
+    	  var day = {'day':r, 'games':[], 'date':date}
         for (i = 1; i <= n / 2; i++) {
             let game = {'gamenum':i, 'matchups':[]}
             //console.log(teams[i], i);
@@ -364,15 +341,52 @@ function tournament(teams) {
                 game.matchups.push({'team':teams[(n - 1 + r - i) % (n - 1) + 1]});
             }
             //bigarr.push(arr);
-            week.games.push(game);
+            day.games.push(game);
         }
-        schedule.push(week)
+        schedule.push(day)
+    }
+    console.log(schedule)
+    return schedule;
+}
+
+function updateTournament(teams) {
+    var n = teams.length;
+    var schedule = [];
+
+    for (var r = 1; r < n; r++) {
+        var dat = new Date();
+        let date = dat.addDays(r);
+        
+    	  var day = {'day':r, 'games':[], 'date':date}
+        for (i = 1; i <= n / 2; i++) {
+            let game = {'gamenum':i, 'matchups':[]}
+            //console.log(teams[i], i);
+            if (i == 1) {
+                game.matchups.push({'team':teams[0]});
+                game.matchups.push({'team':teams[(n - 1 + r - 1) % (n - 1) + 1]});
+            } else {
+                game.matchups.push({'team':teams[(r + i - 2) % (n - 1) + 1]});
+                game.matchups.push({'team':teams[(n - 1 + r - i) % (n - 1) + 1]});
+            }
+            //bigarr.push(arr);
+            day.games.push(game);
+        }
+        schedule.push(day)
     }
     console.log(schedule)
     return schedule;
 }
 
 
+
+
+Date.prototype.addDays = function(days) {
+    var dat = new Date(this.valueOf());
+    dat.setDate(dat.getDate() + days);
+    return dat;
+  }
+  
+  
 
 
 module.exports = router;

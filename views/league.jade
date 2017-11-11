@@ -28,10 +28,10 @@ block content
               a(href="/team/"+team._id) #{team.teamname} 
               i #{team.teamOwner}
   ul.schedule-container
-    each week in schedule
-      li Week: #{week.week}
+    each day in schedule
+      li Day: #{day.day} #{day.date}
       ul
-        each game in week.games
+        each game in day.games
           li 
             p Game Number: #{game.gamenum}
             each matchup in game.matchups 
