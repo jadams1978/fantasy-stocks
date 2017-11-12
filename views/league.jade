@@ -29,7 +29,7 @@ block content
               i #{team.teamOwner}
   ul.schedule-container
     each week in schedule
-      li Week: #{week.week}
+      li Day: #{week.week} #{week.date}
       ul
         each game in week.games
           li 

@@ -181,45 +181,47 @@ function profitOrLoss(teamname) {
         totalProfitOrLoss += teamStocks[i];
     }
 }
+var dayInMilliseconds = 1000 * 60 * 60 * 24; 
+setInterval(function() { calculateScores() },dayInMilliseconds );
 router.get('/calc', (req, res) => {
-    //console.log('calculating all scores');
-
+    
             let league_id = "";
             League
                 .find() 
                 .exec()
                 .then(leagues => {
                     
-                    //console.log('dodgers win');
+                    
                     leagues.forEach(function(league, i) {
                         league_id = league._id;
-                        console.log('league');
-                        console.log(league);
-                        //router.set('leagueId', req.params.id);
+                        
+                        
                         Team
                             .find({'leaguename': league_id}) 
                             .exec()
                             .then(teams => {
                                 let leagueTotals = []  
                                 teams.forEach(function(team, i) {
-       					leagueTotals.push(updateTeams(team))                                        
+       					        leagueTotals.push(updateTeams(team))                                        
 				})
    			        Promise.all(leagueTotals).then(l => {
-				    console.log(l) 
-
-					let now = 3;
+				    //console.log(l) 
+                    
+					let now = new Date();
 					league.schedule.forEach(function(week){
-					  if(now >= week.week && now < week.week + 1){
-					    console.log(now)
+                        
+                        
+					  if(now >= week.date && now < now.addDays(1)){
+                        
 						  week.games.forEach(function(game){
 						  game.matchups.forEach(function(match){
-						  console.log('sup '+match.team.teamname)
+						  
 
 						var result = l.filter(function( obj ) {
-							console.log(obj)
+							//console.log(obj)
   							return obj.teamname == match.team.teamname;
 						});
-						console.log(result,'result')
+						//console.log(result,'result')
 						match.team.score = result[0].score; 
 					     })
 					   })
@@ -230,8 +232,8 @@ router.get('/calc', (req, res) => {
 
 				    league.save(); 
 				
-			            console.log(league) 
-				    console.log(' '); 	
+			            
+				    console.log('calcfunction', new Date()); 	
 				    console.log(' '); 	
 				    console.log(' '); 	
 				    console.log(' '); 	
@@ -245,8 +247,7 @@ router.get('/calc', (req, res) => {
 
 
 
-                      	 console.log('league');
-                       	console.log(league);
+                      	 
 
 
                     })
@@ -278,8 +279,8 @@ function updateTeams(team){
 		teamTotal += values[i];
 	    
 	    }
-	    //console.log(teamTotal);
-	    console.log(team.teamname + teamTotal);
+	    
+	    
 
 
 	     Team.update(
@@ -294,12 +295,7 @@ function updateTeams(team){
 
 		return {teamname:team.teamname, score: teamTotal}
 	     
-	    //League.update(
-		//'teams.teamId': new ObjectId(team._id)},
-		//{'$set':{'teams.$.score':teamTotal}}
-	    //
-	    //db.leagues.update({'teams.teamId': new ObjectId("5a00d45f16fa2512f481bba3")},{'$set':{'teams.$.score':70}})
-	    //League.update()
+	    
 	})  
 }
 
@@ -378,7 +374,9 @@ function tournament(teams) {
     var schedule = [];
 
     for (var r = 1; r < n; r++) {
-    	  var week = {'week':r, 'games':[]}
+        var dat = new Date();
+        let date = dat.addDays(r);
+    	var week = {'week':r, 'games':[], 'date':date}
         for (i = 1; i <= n / 2; i++) {
             let game = {'gamenum':i, 'matchups':[]}
             ////console.log(teams[i], i);
@@ -398,6 +396,77 @@ function tournament(teams) {
     return schedule;
 }
 
+Date.prototype.addDays = function(days) {
+    var dat = new Date(this.valueOf());
+    dat.setDate(dat.getDate() + days);
+    return dat;
+  }
+
+  function calculateScores() {
+    
+            let league_id = "";
+            League
+                .find() 
+                .exec()
+                .then(leagues => {
+                    
+                    
+                    leagues.forEach(function(league, i) {
+                        league_id = league._id;
+                        
+                        
+                        Team
+                            .find({'leaguename': league_id}) 
+                            .exec()
+                            .then(teams => {
+                                let leagueTotals = []  
+                                teams.forEach(function(team, i) {
+       					        leagueTotals.push(updateTeams(team))                                        
+				})
+   			        Promise.all(leagueTotals).then(l => {
+				    //console.log(l) 
+                    
+					let now = new Date();
+					league.schedule.forEach(function(week){
+                        
+                        
+					  if(now >= week.date && now < now.addDays(1)){
+                        
+						  week.games.forEach(function(game){
+						  game.matchups.forEach(function(match){
+						  
+
+						var result = l.filter(function( obj ) {
+							//console.log(obj)
+  							return obj.teamname == match.team.teamname;
+						});
+						//console.log(result,'result')
+						match.team.score = result[0].score; 
+					     })
+					   })
+					  }
+					})
+  	
+					league.markModified('schedule');
+
+				    league.save(); 
+				
+			            
+				    console.log('calcfunction', new Date()); 	
+				    console.log(' '); 	
+				    console.log(' '); 	
+				    console.log(' '); 	
+				    console.log(' '); 	
+				    console.log(' '); 	
+				
+			        })
+			    
+                                
+                             }) 
+
+                    })
+                })
+}
 
 
 
