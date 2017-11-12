@@ -5,7 +5,8 @@ const Account = require("../models/account.js");
 describe('Account', () => {
 
     before((done) => {
-        const db = mongoose.connect('mongodb://localhost/test');
+        const db = mongoose.connect('mongodb://john:fantasystocks@ds155695.mlab.com:55695/fantasystocks');
+        //const db = mongoose.connect('mongodb://localhost/test');
         done();
     });
 
