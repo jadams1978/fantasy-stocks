@@ -159,12 +159,13 @@ router.delete('/team/:id', (req, res) => {
 
 
 function fetchData(stockname) {
-    //console.log('fetching data');
+    console.log('fetching data', stockname);
     return fetch(`https://www.quandl.com/api/v3/datasets/${stockname}/data.json?api_key=RHAbp4b2msadmufSJuzn`)
     .then(function(res) {
         return res.json();
     }).then(function(data) {
-        
+        console.log('data')
+        console.log(data)
         let open = data.dataset_data.data[0][1];
         let close = data.dataset_data.data[0][4];
         let profit = close - open;
