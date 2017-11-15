@@ -9,6 +9,11 @@ const fetch = require('node-fetch');
 
 
 const router = express.Router();
+var RateLimiter = require('limiter').RateLimiter;
+// Allow 150 requests per hour (the Twitter search limit). Also understands
+// 'second', 'minute', 'day', or a number of milliseconds
+var limiter = new RateLimiter(1, 2000);
+
 
 
 router.get('/', (req, res) => {
@@ -156,6 +161,29 @@ router.delete('/team/:id', (req, res) => {
 });
 
 
+function speedBump(stockname){
+
+	//var RateLimiter = require('limiter').RateLimiter;
+// Allow 150 requests per hour (the Twitter search limit). Also understands
+// 'second', 'minute', 'day', or a number of milliseconds
+//var limiter = new RateLimiter(150, 'minute');
+
+// Throttle requests
+limiter.removeTokens(1, function(err, remainingRequests) {
+  // err will only be set if we request more than the maximum number of
+  // requests we set in the constructor
+  
+  // remainingRequests tells us how many additional requests could be sent
+  // right this moment
+  console.log('err '+err);
+  console.log('remaining requests '+remainingRequests) 
+		fetchData(stockname)
+
+  
+  //callMyRequestSendingFunction(...);
+});
+		
+}
 
 
 function fetchData(stockname) {
@@ -164,14 +192,19 @@ function fetchData(stockname) {
     .then(function(res) {
         return res.json();
     }).then(function(data) {
-        console.log('data')
-        console.log(data)
+            console.log('data')
+	    console.log(data)
+	if(!data.dataset_data){ return }
         let open = data.dataset_data.data[0][1];
         let close = data.dataset_data.data[0][4];
         let profit = close - open;
         //console.log('the profit for ' + stockname + "  is " + profit);
         return profit;
+    }).catch(function(err,i){
+	console.log('eror',err)
     });
+
+
 }
 //etchData('WIKI/AAPL');
 
@@ -182,8 +215,8 @@ function profitOrLoss(teamname) {
         totalProfitOrLoss += teamStocks[i];
     }
 }
-var dayInMilliseconds = 1000 * 60 * 60 * 24; 
-setInterval(function() { calculateScores() },dayInMilliseconds );
+//var dayInMilliseconds = 1000 * 60 * 60 * 24; 
+//setInterval(function() { calculateScores() },dayInMilliseconds );
 router.get('/calc', (req, res) => {
     
             let league_id = "";
@@ -206,12 +239,14 @@ router.get('/calc', (req, res) => {
        					        leagueTotals.push(updateTeams(team))                                        
 				})
    			        Promise.all(leagueTotals).then(l => {
-				    //console.log(l) 
+				       //console.log(l) 
+				        console.log('wtf') 
                     
 					let now = new Date();
 					league.schedule.forEach(function(week){
-                        
-                        
+                        		  console.log('in this') 
+					  console.log(week.date)
+  					  console.log(now >= week.date)
 					  if(now >= week.date && now < now.addDays(1)){
                         
 						  week.games.forEach(function(game){
@@ -271,13 +306,35 @@ function updateTeams(team){
 
     let totals = [];
     team.stocks.forEach(function(stock, i) {
-	  totals.push(fetchData(stock.name));
+
+
+// Throttle requests
+  // err will only be set if we request more than the maximum number of
+  // requests we set in the constructor
+  
+  // remainingRequests tells us how many additional requests could be sent
+  // right this moment
+  console.log('err '+err);
+  console.log('remaining requests '+remainingRequests) 
+	
+
+
+	  totals.push(
+		  fetchData(stock.name)
+		  //speedBump(stock.name)
+	);
+
+
        
     })
    return Promise.all(totals).then(values => {
 	    let teamTotal = 0;
 	    for (let i=0; i<values.length; i++) {
-		teamTotal += values[i];
+		console.log('i dont these valuers are coming back') 
+	   	console.log(values) 
+		if(values[i]){
+			teamTotal += values[i];
+		}
 	    
 	    }
 	    
@@ -376,7 +433,7 @@ function tournament(teams) {
 
     for (var r = 1; r < n; r++) {
         var dat = new Date();
-        let date = dat.addDays(r);
+        let date = dat.addDays(r-1);
     	var week = {'week':r, 'games':[], 'date':date}
         for (i = 1; i <= n / 2; i++) {
             let game = {'gamenum':i, 'matchups':[]}
@@ -422,7 +479,7 @@ Date.prototype.addDays = function(days) {
                             .then(teams => {
                                 let leagueTotals = []  
                                 teams.forEach(function(team, i) {
-       					        leagueTotals.push(updateTeams(team))                                        
+       				        leagueTotals.push(updateTeams(team))                                        
 				})
    			        Promise.all(leagueTotals).then(l => {
 				    //console.log(l) 

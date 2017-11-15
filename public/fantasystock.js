@@ -1,7 +1,7 @@
  $.ajax({
     type:"GET",
-    //url: "../../convertcsv.json"
-    url: "https://fantasy-stock.herokuapp.com/convertcsv.json",
+    url: "../../convertcsv.json",
+    //url: "https://fantasy-stock.herokuapp.com/convertcsv.json",
     success: function(data) {
       console.log(data);
       window.stocks = data;

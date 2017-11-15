@@ -45,8 +45,8 @@ passport.serializeUser(Account.serializeUser());
 passport.deserializeUser(Account.deserializeUser());
 
 // mongoose
-//mongoose.connect('mongodb://localhost/fantasystocks');
-mongoose.connect('mongodb://john:fantasystocks@ds155695.mlab.com:55695/fantasystocks');
+mongoose.connect('mongodb://localhost/stocks');
+//mongoose.connect('mongodb://john:fantasystocks@ds155695.mlab.com:55695/fantasystocks');
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
     var err = new Error('Not Found');
