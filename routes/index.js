@@ -277,8 +277,9 @@ function updateTeams(team){
    return Promise.all(totals).then(values => {
 	    let teamTotal = 0;
 	    for (let i=0; i<values.length; i++) {
-		teamTotal += values[i];
-	    
+            if(values[i]){ 
+                teamTotal += values[i]; 
+            }
 	    }
 	    
 	    
