@@ -182,8 +182,8 @@ function profitOrLoss(teamname) {
         totalProfitOrLoss += teamStocks[i];
     }
 }
-var dayInMilliseconds = 1000 * 60 * 60 * 24; 
-setInterval(function() { calculateScores() },dayInMilliseconds );
+//var dayInMilliseconds = 1000 * 60 * 60 * 24; 
+//setInterval(function() { calculateScores() },dayInMilliseconds );
 router.get('/calc', (req, res) => {
     
             let league_id = "";
@@ -370,14 +370,15 @@ router.put('/league/:id', (req, res) => {
         }) 
 
 })
-
+console.log('peu')
 function tournament(teams) {
     var n = teams.length;
     var schedule = [];
 
     for (var r = 1; r < n; r++) {
         var dat = new Date();
-        let date = dat.addDays(r);
+        console.log('pickles');
+        let date = dat.addDays(r-1);
     	var week = {'week':r, 'games':[], 'date':date}
         for (i = 1; i <= n / 2; i++) {
             let game = {'gamenum':i, 'matchups':[]}
