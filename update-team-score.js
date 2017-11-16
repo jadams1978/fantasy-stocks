@@ -41,9 +41,6 @@ function updateTeams(team) {
             }
         }
 
-
-
-
         Team.update({
                 _id: team._id
             }, {
