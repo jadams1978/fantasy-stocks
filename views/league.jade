@@ -5,6 +5,7 @@ block content
     h1 #{league_name}
 
   .league-container
+  if !started 
     form(role='form', action="",method="post")
       .form-group
         input.form-control(type='text', name="teamname", placeholder='Create Team', leagueId='#{leagueId}')
@@ -13,8 +14,8 @@ block content
       a(href='/')
         button.btn.btn-primary(type="button") Cancel
 
-    
-  button.btn.btn-default.schedule(type='submit') Start League
+   
+    button.btn.btn-default.schedule(type='submit') Start League
       
         
   .teams-table

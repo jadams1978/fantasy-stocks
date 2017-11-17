@@ -79,18 +79,28 @@
 
 
 
-$('.schedule').on('click', function() {
+$('.schedule').on('click', function(e) {
 
-  
+  console.log('dffafafda');
    $.ajax({
     url: '',
     type: 'PUT',
     data: "stockname",
     dataType: 'json',
-    success: function(result) {console.log(result);},
+    success: function(result) {
+      console.log("adfa");
+      console.log(result);
+      
+      console.log('dffafafda');
+      //console.log(window.location.href);
+      console.log(e);
+      
+    },
     error: function(result){console.log(result);}
 });
-   //location.reload();
+location.reload();
+   console.log('sched reload');
+   
 })
 
 

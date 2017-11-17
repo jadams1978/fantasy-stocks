@@ -7,7 +7,8 @@ const fetch = require('node-fetch');
 const bluebird = require('bluebird'); 
 const mongoose = require('mongoose'); 
 mongoose.Promise = bluebird;
-mongoose.connect('mongodb://john:fantasystocks@ds155695.mlab.com:55695/fantasystocks');
+mongoose.connect('mongodb://localhost/fantasystocks');
+//mongoose.connect('mongodb://john:fantasystocks@ds155695.mlab.com:55695/fantasystocks');
 console.log('update');
 
 
@@ -125,15 +126,19 @@ function calculateScores() {
                             console.log(' ');
                             setTimeout(function() {
                                 mongoose.connection.close();
+                                console.log("end bucs");
 
                             },2000)
                             
                         })
+                        console.log('end bengals');
 
 
                     })
+                    console.log('end seahawks');
 
             })
+            console.log('end pats');
         })
 }
 

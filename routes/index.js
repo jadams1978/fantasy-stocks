@@ -22,10 +22,10 @@ router.get('/', (req, res) => {
     
 })
 
-router.get('/profile', (req, res) => {
-    if (!req.user) { res.redirect('/'); }
-    if (req.user) {
-        //console.log(req.user);
+router.get('/profile', loggedIn, (req, res) => {
+    
+    
+        
         League
             .find({'createdBy':req.user._id}) 
             .exec()
@@ -33,11 +33,11 @@ router.get('/profile', (req, res) => {
                 //console.log(leagues)
                 res.render('profile', { user : req.user, leagues: leagues });
             }) 
-    }
+    
     
 });
 
-router.post('/create-league', (req, res) => {
+router.post('/create-league',loggedIn, (req, res) => {
     League.create({
                 'leaguename':req.body.leaguename,
                 'createdBy':req.user._id,
@@ -47,22 +47,8 @@ router.post('/create-league', (req, res) => {
         res.redirect('/profile');
 });
 
-/*router.get('/league/:id', (req, res) => {
-    if (!req.user) { res.redirect('/'); }
-    if (req.user) {
-        req.app.set('leagueId', req.params.id);
-        //router.set('leagueId', req.params.id);
-        League
-            .findOne({'_id':req.params.id}) 
-            .exec()
-            .then(league => {
-                //console.log(league)
-                res.render('league', { leaguename: league.leaguename, john: "adams", teams: league.teams, leagueId: req.params.id });
-            }) 
-    }
-    
-});*/
-router.post('/league/:leaguename', (req, res) => {
+
+router.post('/league/:leaguename', loggedIn, (req, res) => {
     //console.log(req.body, req.params, 'dog')
 	Team.create({
         'teamname':req.body.teamname, 
@@ -70,15 +56,13 @@ router.post('/league/:leaguename', (req, res) => {
         'createdBy':req.user._id,
         'teamOwner':req.user.username
      },function(doc, x) {
-         //console.log(doc, x);
-         //console.log('apple');
          League.update({_id:req.params.leaguename},
             {$push: { 
                 teams: {'name': req.body.teamname, 'teamId': x._id, 'teamOwner':req.user.username } } }, function(err, doc){
             if (err) {
                 throw error
             }
-            //console.log(doc);
+           
             
         });
      })
@@ -88,58 +72,54 @@ router.post('/league/:leaguename', (req, res) => {
 });
 
 
-router.get('/league/:id', (req, res) => {
-    if (!req.user) { res.redirect('/'); }
-    if (req.user) {
+router.get('/league/:id', loggedIn, (req, res) => {
+    
+    
         let league_name = "";
         let schedule;
         League
             .findOne({'_id':req.params.id}) 
             .exec()
             .then(league => {
-                //console.log(league)
+                
                 league_name = league.leaguename;
                 schedule = league.schedule;
-        //router.set('leagueId', req.params.id);
+                started = league.started;
                 Team
                     .find({'leaguename':req.params.id}) 
                     .exec()
                     .then(teams => {
-                         //console.log(teams)
-                        res.render('league', { teams: teams, leagueId: req.params.id, league_name: league_name, user : req.user, schedule: schedule });
+                        res.render('league', { teams: teams, leagueId: req.params.id, league_name: league_name, user : req.user, schedule: schedule, started: started });
                 }) 
             })
-    }
+    
     
 });
-router.get('/team/:id', (req, res) => {
-    if (!req.user) { res.redirect('/'); }
-    if (req.user) {
+router.get('/team/:id', loggedIn, (req, res) => {
+    
         
         Team
             .findOne({'_id':req.params.id}) 
             .exec()
             .then(team => {
-                //console.log(team)
                 res.render('team', { teamname: team.teamname, teamId: req.params.id, stocks: team.stocks, score: team.score, user : req.user});
             }) 
-    }
+    
     
 });
-router.post('/team/:id', (req, res) => {
-    //console.log('we made it', req.body, req.params);
+router.post('/team/:id', loggedIn, (req, res) => {
     Team.update({_id:req.params.id}, {$push: { stocks: {'name': req.body.stockname, 'description': req.body.stockdescription} } }, function(err, doc){
         if (err) {
             throw error
         }
-        //console.log(doc);
+        
         
     });
-    //res.redirect(`/team/${req.params.id}`);
+    
     res.end();
 })
-router.delete('/team/:id', (req, res) => {
-    //console.log('cubs', req.body);
+router.delete('/team/:id', loggedIn, (req, res) => {
+    
 
     Team.update(
         {'_id': req.params.id},
@@ -149,9 +129,9 @@ router.delete('/team/:id', (req, res) => {
             if (err) {
                 throw err
             }
-            //console.log(doc);
+           
         })
-        //res.redirect(`/team/${req.params.id}`);
+        
         res.end();
 });
 
@@ -169,11 +149,11 @@ function fetchData(stockname) {
         let open = data.dataset_data.data[0][1];
         let close = data.dataset_data.data[0][4];
         let profit = close - open;
-        //console.log('the profit for ' + stockname + "  is " + profit);
+        
         return profit;
     });
 }
-//etchData('WIKI/AAPL');
+
 
 function profitOrLoss(teamname) {
     let teamStocks = [stock1, stock2, stock3, stock4, stock5];
@@ -338,7 +318,7 @@ router.post('/login', passport.authenticate('local', { failureRedirect: '/login'
     });
 });
 
-router.get('/logout', (req, res, next) => {
+router.get('/logout', loggedIn, (req, res, next) => {
     req.logout();
     req.session.save((err) => {
         if (err) {
@@ -348,21 +328,20 @@ router.get('/logout', (req, res, next) => {
     });
 });
 
-router.get('/ping', (req, res) => {
-    res.status(200).send("pong!");
-});
-
-router.put('/league/:id', (req, res) => {
-    //console.log('schedule', req.params)
+//start league button clicked
+router.put('/league/:id', loggedIn, (req, res) => {
+    console.log('schedule', req.params)
     League
         .findOne({'_id':req.params.id}, function(err, league) {
             //console.log(league.teams);
-            //console.log('football')
+            console.log('football')
             Team.find({'leaguename': req.params.id}, function(err, teams) {
-                //console.log(teams, "blue");
+                console.log(teams, "blue");
                 let schedule = tournament(teams);
                 league.schedule = schedule;
+                league.started = true;
                     league.save();
+                    res.end();
             })
 
 
@@ -370,8 +349,10 @@ router.put('/league/:id', (req, res) => {
         }) 
 
 })
-console.log('peu')
 function tournament(teams) {
+    if (!teams) {
+        return;
+    }
     var n = teams.length;
     var schedule = [];
 
@@ -470,7 +451,15 @@ Date.prototype.addDays = function(days) {
                     })
                 })
 }
-
+function loggedIn(req, res, next) {
+    if (req.user) {
+      console.log("loggedIn")
+        next();
+    } else {
+      console.log("logged out")
+        res.redirect('/login');
+    }
+}
 
 
 module.exports = router;
