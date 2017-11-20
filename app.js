@@ -45,7 +45,7 @@ passport.serializeUser(Account.serializeUser());
 passport.deserializeUser(Account.deserializeUser());
 
 // mongoose
-mongoose.connect('mongodb://localhost/fantasystocks');
+mongoose.connect('mongodb://localhost/stocks');
 //mongoose.connect('mongodb://john:fantasystocks@ds155695.mlab.com:55695/fantasystocks');
 
 
