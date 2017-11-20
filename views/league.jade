@@ -5,17 +5,17 @@ block content
     h1 #{league_name}
 
   .league-container
-  if !started 
-    form(role='form', action="",method="post")
-      .form-group
-        input.form-control(type='text', name="teamname", placeholder='Create Team', leagueId='#{leagueId}')
-      button.btn.btn-default(type='submit') Submit
-      &nbsp;
-      a(href='/')
-        button.btn.btn-primary(type="button") Cancel
+    if !started 
+      form(role='form', action="",method="post")
+        .form-group
+          input.form-control(type='text', name="teamname", placeholder='Create Team', leagueId='#{leagueId}')
+        button.btn.btn-default(type='submit') Submit
+        &nbsp;
+        a(href='/')
+          button.btn.btn-primary(type="button") Cancel
 
-   
-    button.btn.btn-default.schedule(type='submit') Start League
+    
+      button.btn.btn-default.schedule(type='submit') Start League
       
         
   .teams-table
@@ -28,14 +28,18 @@ block content
             td 
               a(href="/team/"+team._id) #{team.teamname} 
               i #{team.teamOwner}
-  ul.schedule-container
-    each week in schedule
-      li Day: #{week.week} #{week.date}
-      ul
-        each game in week.games
-          li 
-            p Game Number: #{game.gamenum}
-            each matchup in game.matchups 
-              i #{matchup.team.teamname} #{matchup.team.score}
+  .schedule-table
+    table
+      each week in schedule
+        thead
+          tr: th Day: #{week.week} #{week.date}
+        tbody
+          each game in week.games
+            tr
+              td 
+                p Matchups
+                each matchup in game.matchups 
+                  span #{matchup.team.teamname} #{matchup.team.score}
+  
       
  

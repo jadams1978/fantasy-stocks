@@ -8,22 +8,22 @@ block content
   .stocksearch-container
     form(role='form', action="",method="post")
       .form-group
-        input#search.form-control.input-lg(type='stock', placeholder="Search for a stock")
+        input#search.form-control(type='stock', placeholder="Search for a stock")
         #results
         
 
   .stocks-table
-      table
-        thead
-          tr: th Team Stocks
-        tbody
-          each stock in stocks
-            tr
-              td.stock-name #{stock.name} 
-                button.drop(type="button" data-stockname= "#{stock.name}") Drop 
-            tr
-              td.stock-description #{stock.description}
-            
+    table
+      thead
+        tr: th Team Stocks
+      tbody
+        each stock in stocks
+          tr
+            td.stock-name #{stock.name} 
+              button.drop(class="glyphicon glyphicon-minus" type="button" data-stockname= "#{stock.name}")
+          tr
+            td.stock-description #{stock.description}
+          
 
   
                 

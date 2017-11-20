@@ -2,21 +2,22 @@
 
 * {
     box-sizing: border-box;
-    border: 1px dotted black;
-}
+}   
 
 body {
     min-height: 100vh;
-    font-family: 'Lora', sans-serif;
     margin: 0;
     padding: 0;
     font-size: 20px;
     
   }
-  a {
-    color: #16EFF2;
+  .container {
+    margin-top: 30px;
   }
-  h1 {
+  a {
+    color: #8fb59c;
+  }
+  h1, .schedule-container li {
     font-weight: bold;
   }
   h5 {
@@ -24,75 +25,103 @@ body {
     line-height: 1.5;
     margin-bottom: -65px;
   }
+  i {
+    font-size: 12px;
+    color: #d94c3a;
+  }
+  .stock-name, .stock-description, .leagues-table td, .teams-table td, .schedule-table td, .stocks-table td {
+    padding: 5px 0 0 0;
+  }
+  
   #results {
     margin-top: -35px;
+    
   }
-  .home-container, .register-container, .login-container, .profile-container, .leagues-table, .league-container, .teams-table, .team-container, .stocks-table, .row {
-    margin-top: 30px;
-    padding: 10px;
-    color: #08CD0B;
+  .row {
+    padding: 0 5px 0 5px;
+  }
+  .home-container, .register-container, .login-container, .profile-container, .leagues-table, .league-container, .teams-table, .team-container, .stocks-table, .schedule-table, .stocksearch-container, .stock {
+    padding: 0 10px 0 10px;
+    color: #813a26;
     line-height: 1.5;
+    font-weight: bold;
   }
+  .stock {
+    max-width: 350px;
+  }
+  td.stock-name, td.stock-description, #search, .form-control {
+    max-width: 330px;
+  }
+  
   .team-container p {
-    color: #2C9BF6;
-    font-style: italic;  
+    color: #8fb59c;
+    
+    
   }
   .schedule-container {
     margin-top: 30px;
     padding: 10px;
-    color: #9B15DA;
     line-height: 1.5;
   }
-  .schedule-container i {
-    color: #158BDA;
-    
+  .schedule-table span {
+    color: #8fb59c;
   }
-  .schedule-container i:last-child:before {
-    content: "vs ";
-    color: red;
+  .schedule-table span:last-child:before {
+    content: " vs ";
+    color: #e8c571;
     
   }
   li {
     list-style-type: none;
   }
   .stock-name {
-    color: #BF860C;
+    font-size: 20px;
+    margin-bottom: 10px;
+    color: #8fb59c;
+    font-weight: bold;
     
   }
+  #search {
+    margin-bottom: 40px;
+  }
   .stock-description {
-    color: #D5660B;
     font-style: italic;
+    font-size: 12px;
+    font-weight: bold;
+    color: #813a26;
+    
+  }
+  .schedule {
+    margin-top: 10px;
+  }
+  th, h1 {
+    font-size: 24px;
+  }
+  .glyphicon-plus {
+    float: right;
+    color: blue;
+    font-size: 20px;
+  }
+  .glyphicon-minus {
+    float: right;
+    color: red;
+    font-size: 20px;  
   }
   
-  th {
-    font-size: 36px;
-  } 
-  .drop {
-    float: right;
-    background-color: red;
-    border-radius: 12px;
-    border: 2px solid black;
-    color: black;
-    font-size: 12px;
-    width: 50px;
-  }
-  .add {
-    float: right;
-    background-color: blue;
-    border-radius: 12px;
-    border: 2px solid black;
-    color: black;
-    font-size: 12px;
-    width: 50px;
-  }
+  
 
-
-.row {
-    margin-left: 0;
-    margin-right: 0;
-}
 @media screen and (min-width: 640px) {
-  * {
-    border: 1px dotted yellow;
+  
+  .container {
+    width: 550px;
+    margin-left: auto;
+    margin-right: auto;
   }
+  .stock {
+    max-width: 524px;
+  }
+  td.stock-name, td.stock-description, #search, .form-control {
+    min-width: 500px;
+  }
+  
 }

@@ -15,14 +15,14 @@ block content
         button.btn.btn-primary(type="button") Cancel
         
   .leagues-table
-      table
-        thead
-          tr: th Leagues
-        tbody
-          each league in leagues
-            tr
-              td 
-                a(href="/league/"+league._id) #{league.leaguename} 
-                i #{league.leagueOwner} 
+    table
+      thead
+        tr: th Leagues
+      tbody
+        each league in leagues
+          tr
+            td 
+              a(href="/league/"+league._id) #{league.leaguename} 
+              i #{league.leagueOwner} 
   
   
