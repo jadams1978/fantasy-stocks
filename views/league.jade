@@ -32,14 +32,14 @@ block content
     table
       each week in schedule
         thead
-          tr: th Day: #{week.week} #{week.date}
+          tr: th Day: #{week.week} #{moment(week.date).format("dddd MMM Do")}
         tbody
           each game in week.games
             tr
               td 
                 p Matchups
                 each matchup in game.matchups 
-                  span #{matchup.team.teamname} #{matchup.team.score}
+                  span #{matchup.team.teamname} #{matchup.team.score.toFixed(3)}
   
       
  

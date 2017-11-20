@@ -18,7 +18,7 @@ var app = express();
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
-
+app.locals.moment = require('moment');
 // uncomment after placing your favicon in /public
 //app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use(logger('dev'));
@@ -45,8 +45,8 @@ passport.serializeUser(Account.serializeUser());
 passport.deserializeUser(Account.deserializeUser());
 
 // mongoose
-mongoose.connect('mongodb://localhost/fantasystocks');
-//mongoose.connect('mongodb://john:fantasystocks@ds155695.mlab.com:55695/fantasystocks');
+//mongoose.connect('mongodb://localhost/fantasystocks');
+mongoose.connect('mongodb://john:fantasystocks@ds155695.mlab.com:55695/fantasystocks');
 
 
 

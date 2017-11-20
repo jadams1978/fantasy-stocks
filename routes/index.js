@@ -163,20 +163,7 @@ router.delete('/team/:id', loggedIn, (req, res) => {
 });
 
 //find stock profits by subtracting open value from close value. data is from quandl.com api.
-function fetchData(stockname) {
-	console.log('fetching data', stockname);
-	return fetch(`https://www.quandl.com/api/v3/datasets/${stockname}/data.json?api_key=RHAbp4b2msadmufSJuzn`)
-		.then(function(res) {
-			return res.json();
-		}).then(function(data) {
-			console.log('data')
-			console.log(data)
-			let open = data.dataset_data.data[0][1];
-			let close = data.dataset_data.data[0][4];
-			let profit = close - open;
-			return profit;
-		});
-}
+
 
 //this isnt needed
 function profitOrLoss(teamname) {
@@ -190,88 +177,6 @@ function profitOrLoss(teamname) {
 //var dayInMilliseconds = 1000 * 60 * 60 * 24; 
 //setInterval(function() { calculateScores() },dayInMilliseconds );
 
-//calculate scores. find all leagues and then all teams within each league. the score is calculated
-//for each date in matchup schedule and saved.
-router.get('/calc', (req, res) => {
-	let league_id = "";
-	League
-		.find()
-		.exec()
-		.then(leagues => {
-			leagues.forEach(function(league, i) {
-				league_id = league._id;
-				Team
-					.find({
-						'leaguename': league_id
-					})
-					.exec()
-					.then(teams => {
-						let leagueTotals = []
-						teams.forEach(function(team, i) {
-							leagueTotals.push(updateTeams(team))
-						})
-						Promise.all(leagueTotals).then(l => {
-							let now = new Date();
-							league.schedule.forEach(function(week) {
-								if (now >= week.date && now < now.addDays(1)) {
-									week.games.forEach(function(game) {
-										game.matchups.forEach(function(match) {
-											var result = l.filter(function(obj) {
-												return obj.teamname == match.team.teamname;
-											});
-											match.team.score = result[0].score;
-										})
-									})
-								}
-							})
-							league.markModified('schedule');
-							league.save();
-							console.log('calcfunction', new Date());
-							console.log(' ');
-							console.log(' ');
-							console.log(' ');
-							console.log(' ');
-							console.log(' ');
-						})
-						res.json('calculating scores');
-					})
-			})
-		})
-})
-
-//update scores. the daily scores are added together into one total score.
-function updateTeams(team) {
-	let totals = [];
-	team.stocks.forEach(function(stock, i) {
-		totals.push(fetchData(stock.name));
-	})
-	return Promise.all(totals).then(values => {
-		let teamTotal = 0;
-		for (let i = 0; i < values.length; i++) {
-			if (values[i]) {
-				teamTotal += values[i];
-			}
-		}
-		Team.update({
-				_id: team._id
-			}, {
-				$set: {
-					"score": teamTotal
-				}
-			}, {
-				multi: true
-			},
-			function(err, doc) {
-				if (err) {
-					throw err
-				}
-			})
-		return {
-			teamname: team.teamname,
-			score: teamTotal
-		}
-	})
-}
 
 //page where user can signup.
 router.get('/register', (req, res) => {
@@ -359,11 +264,17 @@ function tournament(teams) {
 		return;
 	}
 	var n = teams.length;
+	let skipDays = 0;
 	var schedule = [];
 	for (var r = 1; r < n; r++) {
 		var dat = new Date();
 		console.log('pickles');
-		let date = dat.addDays(r - 1);
+		if(dat.addDays(r, skipDays).getDay() == 6) {
+			console.log('weekend', dat.getDay());
+			skipDays+=2;	
+		}
+
+		let date = dat.addDays(r, skipDays).getTime();
 		var week = {
 			'week': r,
 			'games': [],
@@ -397,57 +308,12 @@ function tournament(teams) {
 }
 
 //gets current date and adds future days.
-Date.prototype.addDays = function(days) {
+Date.prototype.addDays = function(days, skipDays) {
 	var dat = new Date(this.valueOf());
 	dat.setDate(dat.getDate() + days);
-	return dat;
-}
-
-//calculate and save scores for each team in each league.
-function calculateScores() {
-	let league_id = "";
-	League
-		.find()
-		.exec()
-		.then(leagues => {
-			leagues.forEach(function(league, i) {
-				league_id = league._id;
-				Team
-					.find({
-						'leaguename': league_id
-					})
-					.exec()
-					.then(teams => {
-						let leagueTotals = []
-						teams.forEach(function(team, i) {
-							leagueTotals.push(updateTeams(team))
-						})
-						Promise.all(leagueTotals).then(l => {
-							let now = new Date();
-							league.schedule.forEach(function(week) {
-								if (now >= week.date && now < now.addDays(1)) {
-									week.games.forEach(function(game) {
-										game.matchups.forEach(function(match) {
-											var result = l.filter(function(obj) {
-												return obj.teamname == match.team.teamname;
-											});
-											match.team.score = result[0].score;
-										})
-									})
-								}
-							})
-							league.markModified('schedule');
-							league.save();
-							console.log('calcfunction', new Date());
-							console.log(' ');
-							console.log(' ');
-							console.log(' ');
-							console.log(' ');
-							console.log(' ');
-						})
-					})
-			})
-		})
+	
+	dat.setDate(dat.getDate() + skipDays);
+	return dat;	
 }
 
 //checks if user is logged-in. used to prevent other users from accessing private pages.

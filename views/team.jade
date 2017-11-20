@@ -3,7 +3,7 @@ extends layout
 block content
   .team-container
     h1 Team #{teamname}
-    p score #{score}
+    p score #{score.toFixed(5)}
 
   .stocksearch-container
     form(role='form', action="",method="post")
