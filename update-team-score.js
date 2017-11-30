@@ -106,12 +106,14 @@ function updateLeague(league){
                         })
                         Promise.all(leagueTotals).then(l => {
                             console.log(l) 
+                            console.log('ELEPHANT')
 
                             let now = Date.now();
                             let n = new Date();
                             //moment(testDate).format('MM/DD/YYYY');
                             league.schedule.forEach(function(week) {
-                                if (now >= week.date && now < n.addDays(1)) {
+                                //if (now >= week.date && now < n.addDays(1)) {
+                                if (now >= week.date && week.date > n.addDays(-1)) {
                                     week.games.forEach(function(game) {
                                         game.matchups.forEach(function(match) {
                                             var result = l.filter(function(obj) {
