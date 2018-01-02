@@ -7,8 +7,9 @@ const fetch = require('node-fetch');
 
 const router = express.Router();
 
+
 //home page. shows leagues user has joined.
-router.get('/', (req, res) => {
+router.get('/', loggedIn, (req, res) => {
 	League
 		.find()
 		.exec()

@@ -55,10 +55,10 @@ body {
     font-weight: bold;
   }
   .stock {
-    //max-width: 350px;
+    max-width: 350px;
   }
   td.stock-name, td.stock-description, #search, .form-control {
-    //max-width: 330px;
+    max-width: 330px;
   }
   
   .team-container p {
@@ -121,7 +121,7 @@ body {
 @media screen and (min-width: 640px) {
   
   .container {
-    width: 550px;
+    
     margin-left: auto;
     margin-right: auto;
   }
